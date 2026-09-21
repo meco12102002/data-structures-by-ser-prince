@@ -3,7 +3,7 @@ import { useState } from "react";
 const rules = [
   {
     number: "01",
-    title: "Smaller values go to the left subtree.",
+    title: "Smaller values go left.",
     description:
       "If a value is smaller than the current node, follow the left branch.",
     example: "8 < 10",
@@ -11,7 +11,7 @@ const rules = [
   },
   {
     number: "02",
-    title: "Larger values go to the right subtree.",
+    title: "Larger values go right.",
     description:
       "If a value is greater than the current node, follow the right branch.",
     example: "15 > 10",
@@ -19,9 +19,9 @@ const rules = [
   },
   {
     number: "03",
-    title: "Every subtree follows the same rules.",
+    title: "The rule continues at every node.",
     description:
-      "After moving left or right, compare the value again with the new node. The same rule continues until the correct position is found.",
+      "After moving left or right, compare the value again with the new node until the correct position is found.",
     example: "7 > 5",
     direction: "COMPARE AGAIN",
   },
@@ -29,7 +29,7 @@ const rules = [
 
 const examples = [
   {
-    label: "VALID BINARY SEARCH TREE",
+    label: "VALID",
     valid: true,
 
     nodes: [
@@ -49,7 +49,7 @@ const examples = [
   },
 
   {
-    label: "INVALID BINARY SEARCH TREE",
+    label: "INVALID",
     valid: false,
 
     nodes: [
@@ -65,16 +65,6 @@ const examples = [
   },
 ];
 
-/*
-=========================================
-INSERTION ACTIVITY
-
-The values are intentionally inserted
-in this order so the learner has to
-make several LEFT / RIGHT decisions.
-=========================================
-*/
-
 const insertionValues = [
   10,
   5,
@@ -84,14 +74,6 @@ const insertionValues = [
   12,
   20,
 ];
-
-/*
-=========================================
-INITIAL TREE
-
-The first value becomes the root.
-=========================================
-*/
 
 const initialTree = [
   {
@@ -104,19 +86,12 @@ const initialTree = [
   },
 ];
 
-/*
-=========================================
-TREE POSITIONING
-
-Used only for the visualization.
-=========================================
-*/
-
 function getChildPosition(parent, side) {
   const levelGap = 27;
-
-  const horizontalGap =
-    Math.max(7, 25 - parent.level * 5);
+  const horizontalGap = Math.max(
+    7,
+    25 - parent.level * 5
+  );
 
   return {
     x:
@@ -130,20 +105,7 @@ function getChildPosition(parent, side) {
   };
 }
 
-
-/*
-=========================================
-FIND INSERTION TARGET
-
-Determines the next node that the
-learner needs to compare against.
-=========================================
-*/
-
-function findComparisonNode(
-  tree,
-  value
-) {
+function findComparisonNode(tree, value) {
   let current = tree.find(
     (node) => node.parent === null
   );
@@ -164,6 +126,7 @@ function findComparisonNode(
       }
 
       current = leftChild;
+      continue;
     }
 
     if (value > current.value) {
@@ -181,52 +144,28 @@ function findComparisonNode(
       }
 
       current = rightChild;
+      continue;
     }
+
+    return null;
   }
 
   return null;
 }
 
-
 function BinarySearchTreeSection() {
+  const [activeRule, setActiveRule] = useState(0);
+  const [activeExample, setActiveExample] = useState(0);
 
-  /*
-  =========================================
-  RULE EXPLORATION
-  =========================================
-  */
-
-  const [activeRule, setActiveRule] =
-    useState(0);
-
-  const [activeExample, setActiveExample] =
-    useState(0);
-
-
-  /*
-  =========================================
-  INSERTION ACTIVITY
-  =========================================
-  */
-
-  const [tree, setTree] =
-    useState(initialTree);
-
+  const [tree, setTree] = useState(initialTree);
   const [currentValueIndex, setCurrentValueIndex] =
     useState(1);
 
-  const [feedback, setFeedback] =
-    useState(null);
-
-  const [attempts, setAttempts] =
-    useState(0);
-
-  const [completed, setCompleted] =
-    useState(false);
-
+  const [feedback, setFeedback] = useState(null);
+  const [attempts, setAttempts] = useState(0);
+  const [completed, setCompleted] = useState(false);
 
   const rule = rules[activeRule];
-
   const example = examples[activeExample];
 
   const currentValue =
@@ -240,13 +179,6 @@ function BinarySearchTreeSection() {
         )
       : null;
 
-
-  /*
-  =========================================
-  RESET ACTIVITY
-  =========================================
-  */
-
   function resetInsertionActivity() {
     setTree(initialTree);
     setCurrentValueIndex(1);
@@ -255,15 +187,7 @@ function BinarySearchTreeSection() {
     setCompleted(false);
   }
 
-
-  /*
-  =========================================
-  HANDLE LEFT / RIGHT
-  =========================================
-  */
-
   function handleDirection(selectedDirection) {
-
     if (!comparison || completed) {
       return;
     }
@@ -271,25 +195,15 @@ function BinarySearchTreeSection() {
     const correctDirection =
       comparison.direction;
 
-
-    /*
-    -------------------------------
-    CORRECT
-    -------------------------------
-    */
-
     if (
       selectedDirection === correctDirection
     ) {
+      const parent = comparison.node;
 
-      const parent =
-        comparison.node;
-
-      const position =
-        getChildPosition(
-          parent,
-          selectedDirection
-        );
+      const position = getChildPosition(
+        parent,
+        selectedDirection
+      );
 
       const newNode = {
         value: currentValue,
@@ -300,12 +214,10 @@ function BinarySearchTreeSection() {
         level: position.level,
       };
 
-
       const updatedTree = [
         ...tree,
         newNode,
       ];
-
 
       setTree(updatedTree);
 
@@ -313,68 +225,48 @@ function BinarySearchTreeSection() {
         type: "correct",
         message:
           selectedDirection === "left"
-            ? `${currentValue} is smaller than ${parent.value}. Move LEFT.`
-            : `${currentValue} is greater than ${parent.value}. Move RIGHT.`,
+            ? `${currentValue} is smaller than ${parent.value}. Move left.`
+            : `${currentValue} is greater than ${parent.value}. Move right.`,
       });
-
 
       const nextIndex =
         currentValueIndex + 1;
 
-
       if (
         nextIndex >= insertionValues.length
       ) {
-
         setCompleted(true);
-
         setCurrentValueIndex(
           insertionValues.length
         );
-
         return;
       }
 
-
-      setCurrentValueIndex(
-        nextIndex
-      );
-
+      setCurrentValueIndex(nextIndex);
       setAttempts(0);
 
       return;
     }
 
-
-    /*
-    -------------------------------
-    WRONG
-    -------------------------------
-    */
-
-    const parent =
-      comparison.node;
+    const parent = comparison.node;
 
     const correctText =
       correctDirection === "left"
         ? "LEFT"
         : "RIGHT";
 
-
     const strongerHint =
       attempts >= 1
-        ? `Remember: ${currentValue} ${
+        ? `${currentValue} ${
             currentValue < parent.value
               ? "<"
               : ">"
           } ${parent.value}.`
         : `Compare ${currentValue} with ${parent.value}.`;
 
-
     setAttempts(
       (previous) => previous + 1
     );
-
 
     setFeedback({
       type: "wrong",
@@ -384,7 +276,6 @@ function BinarySearchTreeSection() {
     });
   }
 
-
   return (
     <section
       className="bst-section"
@@ -392,7 +283,7 @@ function BinarySearchTreeSection() {
     >
 
       {/* =================================
-          SECTION INTRODUCTION
+          INTRODUCTION
       ================================= */}
 
       <header className="bst-section-header">
@@ -410,17 +301,16 @@ function BinarySearchTreeSection() {
         <p>
           A Binary Search Tree (BST) is a type of
           binary tree that organizes values according
-          to a specific ordering rule. Understanding
-          this rule is essential for learning how
-          binary search trees support searching,
-          insertion, and other operations.
+          to an ordering rule. That rule determines
+          where values belong and helps us search for
+          data efficiently.
         </p>
 
       </header>
 
 
       {/* =================================
-          WHAT IS A BST?
+          WHAT IS A BST
       ================================= */}
 
       <section
@@ -437,69 +327,17 @@ function BinarySearchTreeSection() {
         </h3>
 
         <p>
-          A Binary Search Tree is a binary tree in
-          which values are arranged relative to each
-          node. Smaller values are placed in the left
-          subtree, while larger values are placed in
-          the right subtree.
-        </p>
-
-        <p>
-          This ordering helps us determine which
-          direction to follow when searching for or
-          inserting a value.
+          Smaller values belong in the left subtree,
+          while larger values belong in the right
+          subtree. The same rule continues at every
+          node.
         </p>
 
       </section>
 
 
       {/* =================================
-          CORE BST RULE
-      ================================= */}
-
-      <section
-        className="bst-core"
-        aria-labelledby="binary-search-tree-core-rule"
-      >
-
-        <span className="bst-content-label">
-          THE CORE BINARY SEARCH TREE RULE
-        </span>
-
-        <h3 id="binary-search-tree-core-rule">
-          Smaller values go left.
-          <br />
-          Larger values go right.
-        </h3>
-
-        <div className="bst-core-rule">
-
-          <span>
-            LEFT
-          </span>
-
-          <strong>
-            &lt; NODE &lt;
-          </strong>
-
-          <span>
-            RIGHT
-          </span>
-
-        </div>
-
-        <p>
-          For any node, values smaller than that node
-          belong in its left subtree, while values
-          greater than that node belong in its right
-          subtree.
-        </p>
-
-      </section>
-
-
-      {/* =================================
-          BST RULES
+          RULES
       ================================= */}
 
       <section
@@ -517,11 +355,6 @@ function BinarySearchTreeSection() {
             Three rules to remember
           </h3>
 
-          <p>
-            These rules determine how values are
-            positioned inside a Binary Search Tree.
-          </p>
-
         </div>
 
 
@@ -529,44 +362,42 @@ function BinarySearchTreeSection() {
 
           <div className="bst-rule-list">
 
-            {rules.map(
-              (item, index) => (
+            {rules.map((item, index) => (
 
-                <button
-                  key={item.number}
-                  type="button"
-                  className={`bst-rule-button ${
-                    activeRule === index
-                      ? "active"
-                      : ""
-                  }`}
-                  onClick={() =>
-                    setActiveRule(index)
-                  }
-                  aria-pressed={
-                    activeRule === index
-                  }
+              <button
+                key={item.number}
+                type="button"
+                className={`bst-rule-button ${
+                  activeRule === index
+                    ? "active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setActiveRule(index)
+                }
+                aria-pressed={
+                  activeRule === index
+                }
+              >
+
+                <span className="bst-rule-number">
+                  {item.number}
+                </span>
+
+                <span className="bst-rule-title">
+                  {item.title}
+                </span>
+
+                <span
+                  className="bst-rule-arrow"
+                  aria-hidden="true"
                 >
+                  →
+                </span>
 
-                  <span className="bst-rule-number">
-                    {item.number}
-                  </span>
+              </button>
 
-                  <span className="bst-rule-title">
-                    {item.title}
-                  </span>
-
-                  <span
-                    className="bst-rule-arrow"
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
-
-                </button>
-
-              )
-            )}
+            ))}
 
           </div>
 
@@ -628,13 +459,12 @@ function BinarySearchTreeSection() {
           </span>
 
           <h3 id="binary-search-tree-example">
-            See the BST rules in a real tree.
+            See the rules in a real tree.
           </h3>
 
           <p>
             Start at the root and compare each value
-            with the node above it. Every value must
-            follow the Binary Search Tree ordering rule.
+            with the node above it.
           </p>
 
         </div>
@@ -721,8 +551,7 @@ function BinarySearchTreeSection() {
 
               <p>
                 <strong>5</strong> is smaller
-                than 10, so it belongs in the
-                left subtree.
+                than 10, so it goes left.
               </p>
             </div>
 
@@ -731,8 +560,7 @@ function BinarySearchTreeSection() {
 
               <p>
                 <strong>15</strong> is greater
-                than 10, so it belongs in the
-                right subtree.
+                than 10, so it goes right.
               </p>
             </div>
 
@@ -740,9 +568,8 @@ function BinarySearchTreeSection() {
               <span>04</span>
 
               <p>
-                The same rule continues with
-                <strong> 2</strong> and
-                <strong> 7</strong> under node 5.
+                The same rule continues for
+                every subtree.
               </p>
             </div>
 
@@ -754,7 +581,7 @@ function BinarySearchTreeSection() {
 
 
       {/* =================================
-          VALID VS INVALID BST
+          VALID / INVALID
       ================================= */}
 
       <section
@@ -773,9 +600,8 @@ function BinarySearchTreeSection() {
           </h3>
 
           <p>
-            Compare the position of each value with
-            its parent node. Identify whether the
-            tree follows the Binary Search Tree rules.
+            Compare each value with its parent and
+            check whether it is on the correct side.
           </p>
 
         </div>
@@ -861,7 +687,7 @@ function BinarySearchTreeSection() {
 
               <>
                 <span className="bst-valid-label">
-                  VALID BINARY SEARCH TREE
+                  VALID
                 </span>
 
                 <h4>
@@ -869,10 +695,9 @@ function BinarySearchTreeSection() {
                 </h4>
 
                 <p>
-                  Values smaller than each node are
-                  placed in its left subtree, while
-                  larger values are placed in its
-                  right subtree.
+                  Smaller values are in the left
+                  subtree and larger values are in
+                  the right subtree.
                 </p>
               </>
 
@@ -880,19 +705,17 @@ function BinarySearchTreeSection() {
 
               <>
                 <span className="bst-invalid-label">
-                  INVALID BINARY SEARCH TREE
+                  INVALID
                 </span>
 
                 <h4>
-                  A value violates the ordering rule.
+                  The ordering rule is broken.
                 </h4>
 
                 <p>
-                  The value <strong>15</strong> is
-                  placed on the left side of
-                  <strong> 10</strong>. Because
-                  15 is greater than 10, it should
-                  belong in the right subtree.
+                  <strong>15</strong> is greater
+                  than <strong>10</strong>, but it
+                  is placed on the left side.
                 </p>
               </>
 
@@ -905,29 +728,27 @@ function BinarySearchTreeSection() {
 
         <div className="bst-example-controls">
 
-          {examples.map(
-            (item, index) => (
+          {examples.map((item, index) => (
 
-              <button
-                key={item.label}
-                type="button"
-                className={
-                  activeExample === index
-                    ? "active"
-                    : ""
-                }
-                onClick={() =>
-                  setActiveExample(index)
-                }
-                aria-pressed={
-                  activeExample === index
-                }
-              >
-                {item.label}
-              </button>
+            <button
+              key={item.label}
+              type="button"
+              className={
+                activeExample === index
+                  ? "active"
+                  : ""
+              }
+              onClick={() =>
+                setActiveExample(index)
+              }
+              aria-pressed={
+                activeExample === index
+              }
+            >
+              {item.label}
+            </button>
 
-            )
-          )}
+          ))}
 
         </div>
 
@@ -943,7 +764,7 @@ function BinarySearchTreeSection() {
         aria-labelledby="binary-search-tree-insertion"
       >
 
-        <div className="bst-insertion-header">
+        <header className="bst-insertion-header">
 
           <span className="bst-content-label">
             INTERACTIVE ACTIVITY
@@ -954,164 +775,362 @@ function BinarySearchTreeSection() {
           </h3>
 
           <p>
-            Use the Binary Search Tree rules to
-            insert each value into the correct
-            position. At every step, decide whether
-            the value should go <strong>LEFT</strong>
-            or <strong>RIGHT</strong>.
+            Use the BST rules to insert each value.
+            At every step, compare the value with the
+            current node and decide whether to go
+            <strong> LEFT</strong> or
+            <strong> RIGHT</strong>.
           </p>
 
-        </div>
+        </header>
 
 
         {/* =================================
-            VALUES TO INSERT
+            INSERTION WORKSPACE
         ================================= */}
 
-        <div className="bst-insertion-values">
+        <div className="bst-insertion-workspace">
 
-          <div className="bst-insertion-values-label">
-            VALUES TO INSERT
-          </div>
+          {/* =================================
+              LEFT — DECISION PANEL
+          ================================= */}
 
-          <div className="bst-value-list">
+          <div className="bst-insertion-panel">
 
-            {insertionValues.map(
-              (value, index) => (
+            <div className="bst-panel-header">
 
-                <div
-                  key={value}
-                  className={`bst-value-item ${
-                    index < currentValueIndex
-                      ? "completed"
-                      : index === currentValueIndex
-                        ? "current"
-                        : ""
-                  }`}
-                >
-                  {value}
+              <span>
+                BUILD YOUR TREE
+              </span>
+
+              <span>
+                {Math.min(
+                  currentValueIndex,
+                  insertionValues.length - 1
+                )}{" "}
+                /{" "}
+                {insertionValues.length - 1}
+              </span>
+
+            </div>
+
+
+            {/* VALUES */}
+
+            <div className="bst-insertion-values">
+
+              <span className="bst-insertion-values-label">
+                VALUES TO INSERT
+              </span>
+
+              <div className="bst-value-list">
+
+                {insertionValues.map(
+                  (value, index) => (
+
+                    <div
+                      key={value}
+                      className={`bst-value-item ${
+                        index < currentValueIndex
+                          ? "completed"
+                          : index ===
+                              currentValueIndex
+                            ? "current"
+                            : ""
+                      }`}
+                    >
+                      {value}
+                    </div>
+
+                  )
+                )}
+
+              </div>
+
+            </div>
+
+
+            {!completed ? (
+
+              <div className="bst-task">
+
+                <span className="bst-task-label">
+                  CURRENT VALUE
+                </span>
+
+                <div className="bst-task-value">
+                  {currentValue}
                 </div>
 
-              )
+
+                <div className="bst-comparison-card">
+
+                  <span>
+                    COMPARE
+                  </span>
+
+                  <strong>
+                    {currentValue}
+                  </strong>
+
+                  <span>
+                    WITH
+                  </span>
+
+                  <strong>
+                    {comparison?.node?.value}
+                  </strong>
+
+                </div>
+
+
+                <p className="bst-task-question">
+                  Which direction should
+                  <strong> {currentValue}</strong>{" "}
+                  go?
+                </p>
+
+
+                {/* DECISION BUTTONS */}
+
+                <div className="bst-direction-buttons">
+
+                  <button
+                    type="button"
+                    className="bst-direction-button"
+                    onClick={() =>
+                      handleDirection("left")
+                    }
+                  >
+
+                    <span className="bst-direction-symbol">
+                      ←
+                    </span>
+
+                    <span>
+                      GO LEFT
+                    </span>
+
+                    <small>
+                      {currentValue} &lt;{" "}
+                      {comparison?.node?.value}
+                    </small>
+
+                  </button>
+
+
+                  <button
+                    type="button"
+                    className="bst-direction-button"
+                    onClick={() =>
+                      handleDirection("right")
+                    }
+                  >
+
+                    <span className="bst-direction-symbol">
+                      →
+                    </span>
+
+                    <span>
+                      GO RIGHT
+                    </span>
+
+                    <small>
+                      {currentValue} &gt;{" "}
+                      {comparison?.node?.value}
+                    </small>
+
+                  </button>
+
+                </div>
+
+
+                {/* FEEDBACK */}
+
+                {feedback && (
+
+                  <div
+                    className={`bst-insertion-feedback ${
+                      feedback.type
+                    }`}
+                    role="status"
+                  >
+
+                    <span>
+                      {feedback.type ===
+                      "correct"
+                        ? "CORRECT"
+                        : "TRY AGAIN"}
+                    </span>
+
+                    <p>
+                      {feedback.message}
+                    </p>
+
+                  </div>
+
+                )}
+
+              </div>
+
+            ) : (
+
+              <div
+                className="bst-insertion-complete"
+                role="status"
+              >
+
+                <span className="bst-content-label">
+                  COMPLETE
+                </span>
+
+                <h4>
+                  You built a valid BST.
+                </h4>
+
+                <p>
+                  You successfully applied the
+                  Binary Search Tree rules to
+                  place every value.
+                </p>
+
+                <button
+                  type="button"
+                  className="bst-reset-button"
+                  onClick={
+                    resetInsertionActivity
+                  }
+                >
+                  BUILD AGAIN
+                </button>
+
+              </div>
+
+            )}
+
+
+            {!completed && (
+
+              <button
+                type="button"
+                className="bst-reset-button bst-reset-inline"
+                onClick={
+                  resetInsertionActivity
+                }
+              >
+                RESET ACTIVITY
+              </button>
+
             )}
 
           </div>
 
-        </div>
 
+          {/* =================================
+              RIGHT — LIVE TREE
+          ================================= */}
 
-        {/* =================================
-            CURRENT TASK
-        ================================= */}
+          <div className="bst-live-tree-panel">
 
-        {!completed ? (
+            <div className="bst-live-tree-header">
 
-          <div className="bst-insertion-task">
+              <span>
+                CURRENT TREE
+              </span>
 
-            <div className="bst-task-label">
-              INSERT VALUE
-            </div>
-
-            <div className="bst-task-value">
-              {currentValue}
-            </div>
-
-            <p className="bst-task-instruction">
-
-              Compare{" "}
-              <strong>
-                {currentValue}
-              </strong>{" "}
-              with{" "}
-              <strong>
-                {comparison?.node?.value}
-              </strong>
-              .
-
-              <br />
-
-              Which direction should you take?
-
-            </p>
-
-
-            {/* =================================
-                DECISION BUTTONS
-            ================================= */}
-
-            <div className="bst-direction-buttons">
-
-              <button
-                type="button"
-                className="bst-direction-button"
-                onClick={() =>
-                  handleDirection("left")
-                }
-              >
-
-                <span className="bst-direction-symbol">
-                  ←
-                </span>
-
-                <span>
-                  GO LEFT
-                </span>
-
-                <small>
-                  {currentValue} &lt;{" "}
-                  {comparison?.node?.value}
-                </small>
-
-              </button>
-
-
-              <button
-                type="button"
-                className="bst-direction-button"
-                onClick={() =>
-                  handleDirection("right")
-                }
-              >
-
-                <span className="bst-direction-symbol">
-                  →
-                </span>
-
-                <span>
-                  GO RIGHT
-                </span>
-
-                <small>
-                  {currentValue} &gt;{" "}
-                  {comparison?.node?.value}
-                </small>
-
-              </button>
+              <span>
+                {tree.length}{" "}
+                {tree.length === 1
+                  ? "NODE"
+                  : "NODES"}
+              </span>
 
             </div>
 
 
-            {/* =================================
-                FEEDBACK
-            ================================= */}
+            <div
+              className="bst-live-tree"
+              role="img"
+              aria-label="Current Binary Search Tree being built"
+            >
 
-            {feedback && (
-
-              <div
-                className={`bst-insertion-feedback ${
-                  feedback.type
-                }`}
-                role="status"
+              <svg
+                className="bst-tree-lines"
+                viewBox="0 0 100 110"
+                preserveAspectRatio="none"
+                aria-hidden="true"
               >
 
+                {tree
+                  .filter(
+                    (node) =>
+                      node.parent !== null
+                  )
+                  .map((node) => {
+
+                    const parent =
+                      tree.find(
+                        (item) =>
+                          item.value ===
+                          node.parent
+                      );
+
+                    if (!parent) {
+                      return null;
+                    }
+
+                    return (
+                      <line
+                        key={`${node.parent}-${node.value}`}
+                        x1={parent.x}
+                        y1={parent.y}
+                        x2={node.x}
+                        y2={node.y}
+                      />
+                    );
+                  })}
+
+              </svg>
+
+
+              {tree.map((node) => (
+
+                <div
+                  key={node.value}
+                  className="bst-insertion-node"
+                  style={{
+                    left: `${node.x}%`,
+                    top: `${node.y}%`,
+                  }}
+                >
+                  {node.value}
+                </div>
+
+              ))}
+
+            </div>
+
+
+            {!completed && comparison && (
+
+              <div className="bst-tree-hint">
+
                 <span>
-                  {feedback.type === "correct"
-                    ? "CORRECT"
-                    : "TRY AGAIN"}
+                  CURRENT COMPARISON
                 </span>
+
+                <strong>
+                  {currentValue}{" "}
+                  {currentValue <
+                  comparison.node.value
+                    ? "<"
+                    : ">"}{" "}
+                  {comparison.node.value}
+                </strong>
 
                 <p>
-                  {feedback.message}
+                  Decide where the value should
+                  go from here.
                 </p>
 
               </div>
@@ -1120,154 +1139,7 @@ function BinarySearchTreeSection() {
 
           </div>
 
-        ) : (
-
-          /* =================================
-             COMPLETION
-          ================================= */
-
-          <div
-            className="bst-insertion-complete"
-            role="status"
-          >
-
-            <span className="bst-content-label">
-              COMPLETE
-            </span>
-
-            <h4>
-              You built a valid Binary Search Tree.
-            </h4>
-
-            <p>
-              You successfully used the BST ordering
-              rules to determine where every value
-              belongs.
-            </p>
-
-            <button
-              type="button"
-              className="bst-reset-button"
-              onClick={resetInsertionActivity}
-            >
-              BUILD AGAIN
-            </button>
-
-          </div>
-
-        )}
-
-
-        {/* =================================
-            TREE VISUALIZATION
-        ================================= */}
-
-        <div className="bst-insertion-visualization">
-
-          <div className="bst-insertion-tree-header">
-
-            <span>
-              CURRENT TREE
-            </span>
-
-            <span>
-              {tree.length}{" "}
-              {tree.length === 1
-                ? "NODE"
-                : "NODES"}
-            </span>
-
-          </div>
-
-
-          <div
-            className="bst-insertion-tree"
-            role="img"
-            aria-label="Current Binary Search Tree being built"
-          >
-
-            <svg
-              className="bst-tree-lines"
-              viewBox="0 0 100 110"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-
-              {tree
-                .filter(
-                  (node) =>
-                    node.parent !== null
-                )
-                .map((node) => {
-
-                  const parent =
-                    tree.find(
-                      (item) =>
-                        item.value ===
-                        node.parent
-                    );
-
-                  if (!parent) {
-                    return null;
-                  }
-
-                  return (
-                    <line
-                      key={`${node.parent}-${node.value}`}
-                      x1={parent.x}
-                      y1={parent.y}
-                      x2={node.x}
-                      y2={node.y}
-                    />
-                  );
-                })}
-
-            </svg>
-
-
-            {tree.map((node) => (
-
-              <div
-                key={node.value}
-                className={`bst-insertion-node ${
-                  node.value === currentValue
-                    ? "current"
-                    : ""
-                }`}
-                style={{
-                  left: `${node.x}%`,
-                  top: `${node.y}%`,
-                }}
-              >
-                {node.value}
-              </div>
-
-            ))}
-
-          </div>
-
         </div>
-
-
-        {/* =================================
-            ACTIVITY RESET
-        ================================= */}
-
-        {!completed && (
-
-          <div className="bst-insertion-actions">
-
-            <button
-              type="button"
-              className="bst-reset-button"
-              onClick={resetInsertionActivity}
-            >
-              RESET ACTIVITY
-            </button>
-
-          </div>
-
-        )}
 
       </section>
 
@@ -1292,7 +1164,7 @@ function BinarySearchTreeSection() {
         <p>
           Now that you can build a Binary Search Tree,
           the next step is to use its ordering rules
-          to efficiently find a specific value.
+          to find a specific value.
         </p>
 
       </section>
