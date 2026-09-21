@@ -4575,3 +4575,354 @@ a {
   }
 
 }
+
+
+
+/* =================================
+   AVL TREES
+================================= */
+
+.avl-section {
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 100px 0;
+  border-top: 1px solid var(--border);
+}
+
+.avl-section-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  align-items: end;
+}
+
+.avl-section-header h2 {
+  max-width: 700px;
+  margin: 22px 0 15px;
+
+  color: #eee;
+  font-size: clamp(38px, 5vw, 62px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+}
+
+.avl-section-header p {
+  max-width: 650px;
+  margin: 0;
+
+  color: #666;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.avl-definition {
+  padding: 14px 16px;
+  border: 1px solid #303530;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.avl-definition span,
+.avl-label,
+.avl-calculation > span,
+.avl-next > span {
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.avl-definition strong {
+  color: #eee;
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* CONCEPT */
+
+.avl-concept {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 40px;
+
+  margin-top: 70px;
+}
+
+.avl-concept-copy {
+  padding: 30px 0;
+}
+
+.avl-concept-copy h3 {
+  max-width: 500px;
+  margin: 18px 0;
+
+  color: #eee;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.avl-concept-copy p {
+  max-width: 520px;
+  margin: 0;
+
+  color: #666;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.avl-formula {
+  margin-top: 30px;
+  padding: 18px;
+
+  border: 1px solid var(--border);
+  background: #0c0f0d;
+
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+/* BALANCE EXAMPLE */
+
+.avl-balance-example {
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+
+  min-height: 320px;
+
+  border: 1px solid var(--border);
+  background: #0c0f0d;
+}
+
+.avl-tree-diagram {
+  position: relative;
+
+  min-height: 320px;
+
+  border-right: 1px solid var(--border);
+  background: #090c0a;
+}
+
+.avl-node {
+  position: absolute;
+  z-index: 2;
+
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid #3a403a;
+  border-radius: 50%;
+
+  background: #101410;
+  color: var(--accent);
+
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.avl-node-root {
+  top: 30%;
+  left: 50%;
+}
+
+.avl-node-left {
+  top: 68%;
+  left: 30%;
+}
+
+.avl-node-right {
+  top: 68%;
+  left: 70%;
+}
+
+.avl-tree-lines {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.avl-tree-lines line {
+  stroke: #303530;
+  stroke-width: 0.25;
+}
+
+/* CALCULATION */
+
+.avl-calculation {
+  display: flex;
+  flex-direction: column;
+
+  padding: 30px;
+}
+
+.avl-calculation > span {
+  margin-bottom: 25px;
+}
+
+.avl-calculation p {
+  margin: 0 0 12px;
+
+  color: #666;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.avl-calculation p strong {
+  color: #aaa;
+  font-family: monospace;
+  font-weight: 400;
+}
+
+.avl-calculation-result {
+  margin-top: auto;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--border);
+}
+
+.avl-calculation-result span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #555;
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+
+.avl-calculation-result strong {
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* BALANCE RULES */
+
+.avl-balance-rules {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  margin-top: 25px;
+
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.avl-balance-rules div {
+  min-height: 130px;
+  padding: 25px;
+
+  border-right: 1px solid var(--border);
+}
+
+.avl-balance-rules div:last-child {
+  border-right: none;
+}
+
+.avl-balance-rules strong {
+  display: block;
+
+  margin-bottom: 15px;
+
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.avl-balance-rules span {
+  color: #666;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* NEXT */
+
+.avl-next {
+  max-width: 700px;
+  margin-top: 45px;
+  padding: 25px 0;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.avl-next p {
+  margin: 12px 0 0;
+
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media (max-width: 800px) {
+  .avl-section {
+    width: calc(100% - 48px);
+  }
+
+  .avl-section-header {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    align-items: start;
+  }
+
+  .avl-concept {
+    grid-template-columns: 1fr;
+  }
+
+  .avl-balance-example {
+    grid-template-columns: 1fr;
+  }
+
+  .avl-tree-diagram {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 600px) {
+  .avl-section {
+    width: calc(100% - 28px);
+    padding: 75px 0;
+  }
+
+  .avl-section-header h2 {
+    font-size: 42px;
+  }
+
+  .avl-balance-rules {
+    grid-template-columns: 1fr;
+  }
+
+  .avl-balance-rules div {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .avl-balance-rules div:last-child {
+    border-bottom: none;
+  }
+
+  .avl-balance-example {
+    display: block;
+  }
+}
+

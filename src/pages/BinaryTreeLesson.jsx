@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
 import BinaryTree from "../components/visualizations/BinaryTree";
 import BinarySearchTreeSection from "../components/learning/BinarySearchTreeSection";
+import AVLSection from "../components/learning/AVLSection";
 import TraversalSection from "../components/learning/TraversalSection";
 
 function BinaryTreeLesson() {
@@ -13,8 +14,8 @@ function BinaryTreeLesson() {
       ================================= */}
 
       <SEO
-        title="Binary Trees Explained: Structure, BST Rules & Traversal"
-        description="Learn binary trees through interactive visualizations. Understand binary tree structure, nodes, parents, children, leaves, Binary Search Tree rules, and tree traversal algorithms."
+        title="Binary Trees Explained: Structure, BST Rules, AVL Trees & Traversal"
+        description="Learn binary trees through interactive visualizations. Understand binary tree structure, Binary Search Tree rules, AVL Trees, balance factors, rotations, and tree traversal algorithms."
         path="/learn/binary-trees"
       />
 
@@ -59,8 +60,8 @@ function BinaryTreeLesson() {
           <p>
             Learn how binary trees organize data,
             understand their structure and relationships,
-            explore Binary Search Tree rules, and
-            discover how tree traversal algorithms
+            explore Binary Search Tree rules, AVL Trees,
+            and discover how tree traversal algorithms
             visit each node.
           </p>
 
@@ -110,7 +111,14 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            03 — TREE TRAVERSAL INTRODUCTION
+            03 — AVL TREES
+        ================================= */}
+
+        <AVLSection />
+
+
+        {/* =================================
+            04 — TREE TRAVERSAL INTRODUCTION
         ================================= */}
 
         <section
@@ -119,7 +127,7 @@ function BinaryTreeLesson() {
         >
 
           <span className="section-label">
-            03 / TREE TRAVERSAL
+            04 / TREE TRAVERSAL
           </span>
 
           <h2 id="tree-traversal">
@@ -139,7 +147,6 @@ function BinaryTreeLesson() {
             algorithms process hierarchical data.
           </p>
 
-
           <div className="traversal-definition">
 
             <span className="traversal-definition-label">
@@ -158,11 +165,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            04 — PREORDER TRAVERSAL
+            05 — PREORDER TRAVERSAL
         ================================= */}
 
         <TraversalSection
-          number="04"
+          number="05"
           type="PREORDER"
           rule="ROOT → LEFT → RIGHT"
           title="Preorder Traversal: Visit the Root First"
@@ -171,11 +178,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            05 — INORDER TRAVERSAL
+            06 — INORDER TRAVERSAL
         ================================= */}
 
         <TraversalSection
-          number="05"
+          number="06"
           type="INORDER"
           rule="LEFT → ROOT → RIGHT"
           title="Inorder Traversal: Visit the Root Between Subtrees"
@@ -184,11 +191,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            06 — POSTORDER TRAVERSAL
+            07 — POSTORDER TRAVERSAL
         ================================= */}
 
         <TraversalSection
-          number="06"
+          number="07"
           type="POSTORDER"
           rule="LEFT → RIGHT → ROOT"
           title="Postorder Traversal: Visit the Root Last"
@@ -197,11 +204,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            07 — LEVEL ORDER TRAVERSAL
+            08 — LEVEL ORDER TRAVERSAL
         ================================= */}
 
         <TraversalSection
-          number="07"
+          number="08"
           type="LEVEL ORDER"
           rule="TOP → BOTTOM, LEFT → RIGHT"
           title="Level Order Traversal: Visit Each Level"
@@ -273,6 +280,25 @@ function BinaryTreeLesson() {
               </span>
 
               <h3>
+                AVL Trees
+              </h3>
+
+              <p>
+                An AVL tree is a self-balancing BST that
+                uses a balance factor to maintain height
+                balance.
+              </p>
+
+            </article>
+
+
+            <article className="lesson-summary-item">
+
+              <span>
+                04
+              </span>
+
+              <h3>
                 Tree Traversal
               </h3>
 
@@ -287,7 +313,7 @@ function BinaryTreeLesson() {
             <article className="lesson-summary-item">
 
               <span>
-                04
+                05
               </span>
 
               <h3>
