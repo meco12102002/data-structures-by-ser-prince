@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import SEO from "../components/SEO";
 import BinaryTree from "../components/visualizations/BinaryTree";
+import BinarySearchTreeSection from "../components/learning/BinarySearchTreeSection";
 import TraversalSection from "../components/learning/TraversalSection";
 
 function BinaryTreeLesson() {
@@ -91,7 +92,14 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            02 — TRAVERSAL INTRODUCTION
+            02 — BINARY SEARCH TREES
+        ================================= */}
+
+        <BinarySearchTreeSection />
+
+
+        {/* =================================
+            03 — TRAVERSAL INTRODUCTION
         ================================= */}
 
         <section
@@ -100,7 +108,7 @@ function BinaryTreeLesson() {
         >
 
           <span className="section-label">
-            02 / TRAVERSAL
+            03 / TRAVERSAL
           </span>
 
           <h2 id="traversal-introduction">
@@ -132,11 +140,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            03 — PREORDER
+            04 — PREORDER
         ================================= */}
 
         <TraversalSection
-          number="03"
+          number="04"
           type="PREORDER"
           rule="ROOT → LEFT → RIGHT"
           title="Visit the root first."
@@ -145,11 +153,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            04 — INORDER
+            05 — INORDER
         ================================= */}
 
         <TraversalSection
-          number="04"
+          number="05"
           type="INORDER"
           rule="LEFT → ROOT → RIGHT"
           title="Visit the root between the subtrees."
@@ -158,11 +166,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            05 — POSTORDER
+            06 — POSTORDER
         ================================= */}
 
         <TraversalSection
-          number="05"
+          number="06"
           type="POSTORDER"
           rule="LEFT → RIGHT → ROOT"
           title="Visit the root last."
@@ -171,11 +179,11 @@ function BinaryTreeLesson() {
 
 
         {/* =================================
-            06 — LEVEL ORDER
+            07 — LEVEL ORDER
         ================================= */}
 
         <TraversalSection
-          number="06"
+          number="07"
           type="LEVEL ORDER"
           rule="TOP → BOTTOM, LEFT → RIGHT"
           title="Read the tree level by level."

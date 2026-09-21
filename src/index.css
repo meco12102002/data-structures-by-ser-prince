@@ -2869,3 +2869,569 @@ a {
     width: calc(100% - 28px);
   }
 }
+
+/* =================================
+   BINARY SEARCH TREE SECTION
+================================= */
+
+.bst-section {
+  width: min(1100px, calc(100% - 48px));
+  margin: 140px auto 0;
+}
+
+
+/* =================================
+   SECTION HEADER
+================================= */
+
+.bst-section-header {
+  max-width: 760px;
+}
+
+.bst-section-header h2 {
+  margin: 18px 0 20px;
+
+  font-size: clamp(42px, 6vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.bst-section-header h2 span {
+  color: var(--accent);
+}
+
+.bst-section-header p {
+  max-width: 650px;
+
+  color: #777;
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+
+/* =================================
+   CORE RULE
+================================= */
+
+.bst-core {
+  margin-top: 70px;
+  padding: 45px;
+
+  border: 1px solid #222;
+  background: #0c0f0d;
+
+  text-align: center;
+}
+
+.bst-core-label {
+  margin-bottom: 25px;
+
+  color: #555;
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bst-core-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.bst-core-rule span {
+  color: #666;
+
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.bst-core-rule strong {
+  color: var(--accent);
+
+  font-family: monospace;
+  font-size: clamp(28px, 5vw, 48px);
+  letter-spacing: 0.04em;
+}
+
+.bst-core p {
+  max-width: 520px;
+  margin: 25px auto 0;
+
+  color: #777;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* =================================
+   RULES
+================================= */
+
+.bst-rules {
+  margin-top: 100px;
+}
+
+.bst-rules-heading {
+  margin-bottom: 35px;
+}
+
+.bst-rules-heading p {
+  max-width: 600px;
+  margin-top: 15px;
+
+  color: #666;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.bst-rule-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 30px;
+}
+
+
+/* =================================
+   RULE BUTTONS
+================================= */
+
+.bst-rule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bst-rule-button {
+  display: grid;
+  grid-template-columns: 45px 1fr 25px;
+  align-items: center;
+
+  width: 100%;
+  padding: 20px;
+
+  border: 1px solid #202420;
+  background: transparent;
+
+  color: #777;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    border-color 200ms ease,
+    background 200ms ease,
+    color 200ms ease;
+}
+
+.bst-rule-button:hover {
+  border-color: #333;
+  background: #0d100e;
+}
+
+.bst-rule-button.active {
+  border-color: var(--accent);
+  background: #101510;
+  color: #eee;
+}
+
+.bst-rule-number {
+  color: #555;
+
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.bst-rule-button.active .bst-rule-number {
+  color: var(--accent);
+}
+
+.bst-rule-title {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.bst-rule-arrow {
+  color: #444;
+  text-align: right;
+}
+
+.bst-rule-button.active .bst-rule-arrow {
+  color: var(--accent);
+}
+
+
+/* =================================
+   RULE DETAIL
+================================= */
+
+.bst-rule-detail {
+  min-height: 280px;
+  padding: 40px;
+
+  border: 1px solid #202420;
+  background: #090c0a;
+}
+
+.bst-detail-label {
+  color: var(--accent);
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bst-rule-detail h3 {
+  margin: 20px 0 15px;
+
+  color: #eee;
+
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.bst-rule-detail > p {
+  max-width: 520px;
+
+  color: #777;
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+
+/* =================================
+   RULE EXAMPLE
+================================= */
+
+.bst-rule-example {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  margin-top: 35px;
+}
+
+.bst-example-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 60px;
+  height: 60px;
+
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+
+  color: var(--accent);
+
+  font-family: monospace;
+  font-size: 18px;
+}
+
+.bst-example-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bst-comparison-value {
+  color: #ddd;
+
+  font-family: monospace;
+  font-size: 16px;
+}
+
+.bst-comparison-direction {
+  color: #555;
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+
+/* =================================
+   VALIDATION
+================================= */
+
+.bst-validation {
+  margin-top: 120px;
+}
+
+.bst-validation-header {
+  max-width: 650px;
+}
+
+.bst-validation-header h3 {
+  margin: 18px 0 15px;
+
+  color: #eee;
+
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.bst-validation-header p {
+  color: #666;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.bst-validation-container {
+  margin-top: 40px;
+  padding: 40px;
+
+  border: 1px solid #202420;
+  background: #090c0a;
+}
+
+.bst-validation-status {
+  color: #555;
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+
+  text-align: center;
+}
+
+
+/* =================================
+   VALIDATION TREE
+================================= */
+
+.bst-validation-tree {
+  position: relative;
+
+  width: min(600px, 100%);
+  height: 360px;
+
+  margin: 30px auto;
+}
+
+.bst-tree-lines {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+.bst-tree-lines line {
+  stroke: #333;
+  stroke-width: 0.6;
+}
+
+.bst-validation-node {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 52px;
+  height: 52px;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid #555;
+  border-radius: 50%;
+
+  background: #090c0a;
+
+  color: #eee;
+
+  font-family: monospace;
+  font-size: 14px;
+}
+
+
+/* =================================
+   VALIDATION EXPLANATION
+================================= */
+
+.bst-validation-explanation {
+  max-width: 600px;
+  margin: 0 auto;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #1b1e1b;
+}
+
+.bst-validation-explanation p {
+  margin-top: 12px;
+
+  color: #777;
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.bst-validation-explanation strong {
+  color: #ddd;
+}
+
+.bst-valid-label,
+.bst-invalid-label {
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bst-valid-label {
+  color: var(--accent);
+}
+
+.bst-invalid-label {
+  color: #aaa;
+}
+
+
+/* =================================
+   EXAMPLE CONTROLS
+================================= */
+
+.bst-example-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.bst-example-controls button {
+  padding: 12px 16px;
+
+  border: 1px solid #252925;
+  background: transparent;
+
+  color: #555;
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    background 200ms ease;
+}
+
+.bst-example-controls button:hover {
+  border-color: #444;
+  color: #aaa;
+}
+
+.bst-example-controls button.active {
+  border-color: var(--accent);
+  background: #101510;
+  color: var(--accent);
+}
+
+
+/* =================================
+   NEXT
+================================= */
+
+.bst-next {
+  margin-top: 120px;
+  padding: 50px;
+
+  border-left: 1px solid var(--accent);
+  background: #0a0d0b;
+}
+
+.bst-next h3 {
+  margin: 15px 0;
+
+  color: #eee;
+
+  font-size: 32px;
+  letter-spacing: -0.03em;
+}
+
+.bst-next p {
+  max-width: 600px;
+
+  color: #666;
+
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 800px) {
+
+  .bst-rule-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .bst-rule-detail {
+    min-height: auto;
+  }
+
+  .bst-validation-tree {
+    height: 300px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .bst-section {
+    width: calc(100% - 28px);
+    margin-top: 100px;
+  }
+
+  .bst-core {
+    padding: 30px 20px;
+  }
+
+  .bst-core-rule {
+    gap: 15px;
+  }
+
+  .bst-core-rule strong {
+    font-size: 25px;
+  }
+
+  .bst-rule-detail {
+    padding: 30px 20px;
+  }
+
+  .bst-validation-container {
+    padding: 25px 15px;
+  }
+
+  .bst-validation-tree {
+    height: 250px;
+  }
+
+  .bst-next {
+    padding: 35px 25px;
+  }
+
+  .bst-example-controls {
+    flex-wrap: wrap;
+  }
+
+}
