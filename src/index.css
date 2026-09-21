@@ -2824,3 +2824,48 @@ a {
   }
 
 }
+
+/* =================================
+   LESSON NAVIGATION
+================================= */
+
+.lesson-navigation {
+  width: min(1100px, calc(100% - 48px));
+
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+.lesson-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #555;
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+
+  transition:
+    color 200ms ease,
+    gap 200ms ease;
+}
+
+.lesson-back span {
+  color: var(--accent);
+
+  font-size: 14px;
+}
+
+.lesson-back:hover {
+  gap: 14px;
+  color: #aaa;
+}
+
+@media (max-width: 600px) {
+  .lesson-navigation {
+    width: calc(100% - 28px);
+  }
+}

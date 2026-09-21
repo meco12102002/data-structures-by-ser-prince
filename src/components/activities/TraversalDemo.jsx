@@ -39,7 +39,15 @@ const CONNECTIONS = [
   [5, 7],
 ];
 
-const PREORDER = [10, 5, 2, 7, 15];
+const TRAVERSALS = {
+  PREORDER: [10, 5, 2, 7, 15],
+
+  INORDER: [2, 5, 7, 10, 15],
+
+  POSTORDER: [2, 7, 5, 15, 10],
+
+  "LEVEL ORDER": [10, 5, 15, 2, 7],
+};
 
 const SPEEDS = {
   slow: 1200,
@@ -47,7 +55,9 @@ const SPEEDS = {
   fast: 350,
 };
 
-function TraversalDemo() {
+function TraversalDemo({ type }) {
+  const traversal = TRAVERSALS[type] || TRAVERSALS.PREORDER;
+
   const [currentStep, setCurrentStep] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState("normal");
@@ -57,15 +67,20 @@ function TraversalDemo() {
       return [];
     }
 
-    return PREORDER.slice(0, currentStep + 1);
-  }, [currentStep]);
+    return traversal.slice(0, currentStep + 1);
+  }, [currentStep, traversal]);
+
+  useEffect(() => {
+    setCurrentStep(-1);
+    setIsPlaying(false);
+  }, [type]);
 
   useEffect(() => {
     if (!isPlaying) {
       return;
     }
 
-    if (currentStep >= PREORDER.length - 1) {
+    if (currentStep >= traversal.length - 1) {
       setIsPlaying(false);
       return;
     }
@@ -75,10 +90,10 @@ function TraversalDemo() {
     }, SPEEDS[speed]);
 
     return () => clearTimeout(timer);
-  }, [isPlaying, currentStep, speed]);
+  }, [isPlaying, currentStep, speed, traversal]);
 
   function handlePlay() {
-    if (currentStep >= PREORDER.length - 1) {
+    if (currentStep >= traversal.length - 1) {
       setCurrentStep(-1);
     }
 
@@ -89,7 +104,7 @@ function TraversalDemo() {
     setIsPlaying(false);
 
     setCurrentStep((previous) =>
-      Math.min(previous + 1, PREORDER.length - 1)
+      Math.min(previous + 1, traversal.length - 1)
     );
   }
 
@@ -108,21 +123,25 @@ function TraversalDemo() {
 
   const currentNode =
     currentStep >= 0
-      ? PREORDER[currentStep]
+      ? traversal[currentStep]
       : null;
 
   return (
     <div className="traversal-demo-container">
 
+      {/* =================================
+          DEMO HEADER
+      ================================= */}
+
       <div className="traversal-demo-header">
 
         <div>
           <span className="traversal-demo-label">
-            PREORDER / VISUALIZATION
+            {type} / VISUALIZATION
           </span>
 
           <h3>
-            ROOT → LEFT → RIGHT
+            {getRule(type)}
           </h3>
         </div>
 
@@ -141,6 +160,10 @@ function TraversalDemo() {
       </div>
 
 
+      {/* =================================
+          TREE
+      ================================= */}
+
       <div className="traversal-tree">
 
         <svg
@@ -150,6 +173,7 @@ function TraversalDemo() {
         >
 
           {CONNECTIONS.map(([parent, child]) => {
+
             const parentNode = TREE_NODES[parent];
             const childNode = TREE_NODES[child];
 
@@ -177,6 +201,7 @@ function TraversalDemo() {
 
 
         {Object.values(TREE_NODES).map((node) => {
+
           const isCurrent =
             currentNode === node.id;
 
@@ -203,7 +228,7 @@ function TraversalDemo() {
 
               {isVisited && (
                 <small>
-                  {PREORDER.indexOf(node.id) + 1}
+                  {traversal.indexOf(node.id) + 1}
                 </small>
               )}
 
@@ -214,6 +239,10 @@ function TraversalDemo() {
       </div>
 
 
+      {/* =================================
+          SEQUENCE
+      ================================= */}
+
       <div className="traversal-sequence">
 
         <span>
@@ -222,7 +251,8 @@ function TraversalDemo() {
 
         <div className="sequence-items">
 
-          {PREORDER.map((node, index) => {
+          {traversal.map((node, index) => {
+
             const isVisited =
               index <= currentStep;
 
@@ -231,7 +261,7 @@ function TraversalDemo() {
 
             return (
               <div
-                key={node}
+                key={`${node}-${index}`}
                 className={`
                   sequence-node
                   ${isVisited ? "visited" : ""}
@@ -247,6 +277,10 @@ function TraversalDemo() {
 
       </div>
 
+
+      {/* =================================
+          CONTROLS
+      ================================= */}
 
       <div className="traversal-controls">
 
@@ -270,7 +304,7 @@ function TraversalDemo() {
           type="button"
           onClick={handleNext}
           disabled={
-            currentStep >= PREORDER.length - 1
+            currentStep >= traversal.length - 1
           }
         >
           NEXT →
@@ -311,6 +345,22 @@ function TraversalDemo() {
 
     </div>
   );
+}
+
+function getRule(type) {
+  if (type === "PREORDER") {
+    return "ROOT → LEFT → RIGHT";
+  }
+
+  if (type === "INORDER") {
+    return "LEFT → ROOT → RIGHT";
+  }
+
+  if (type === "POSTORDER") {
+    return "LEFT → RIGHT → ROOT";
+  }
+
+  return "TOP → BOTTOM, LEFT → RIGHT";
 }
 
 export default TraversalDemo;

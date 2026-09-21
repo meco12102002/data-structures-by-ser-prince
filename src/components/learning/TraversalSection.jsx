@@ -8,10 +8,12 @@ function TraversalSection({
   title,
   description,
 }) {
-  const isPreorder = type === "PREORDER";
-
   return (
     <section className="traversal-section">
+
+      {/* =================================
+          SECTION HEADER
+      ================================= */}
 
       <div className="traversal-section-header">
 
@@ -38,28 +40,18 @@ function TraversalSection({
       </div>
 
 
-      {isPreorder ? (
-        <TraversalDemo />
-      ) : (
-        <div className="traversal-demo">
+      {/* =================================
+          INTERACTIVE DEMO
+      ================================= */}
 
-          <div className="traversal-demo-tree">
-
-            <span>
-              INTERACTIVE DEMO
-            </span>
-
-            <strong>
-              COMING NEXT
-            </strong>
-
-          </div>
-
-        </div>
-      )}
+      <TraversalDemo type={type} />
 
 
-      {isPreorder && <TraversalPractice />}
+      {/* =================================
+          PRACTICE
+      ================================= */}
+
+      <TraversalPractice type={type} />
 
     </section>
   );

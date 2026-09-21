@@ -39,21 +39,34 @@ const CONNECTIONS = [
   [5, 7],
 ];
 
-const PREORDER = [10, 5, 2, 7, 15];
+const TRAVERSALS = {
+  PREORDER: [10, 5, 2, 7, 15],
 
-function TraversalPractice() {
+  INORDER: [2, 5, 7, 10, 15],
+
+  POSTORDER: [2, 7, 5, 15, 10],
+
+  "LEVEL ORDER": [10, 5, 15, 2, 7],
+};
+
+function TraversalPractice({ type }) {
+  const traversal =
+    TRAVERSALS[type] || TRAVERSALS.PREORDER;
+
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [feedback, setFeedback] = useState(null);
   const [attempts, setAttempts] = useState(0);
 
-  const nextNode = PREORDER[selectedNodes.length];
+  const nextNode =
+    traversal[selectedNodes.length];
 
   function handleNodeClick(nodeId) {
-    if (selectedNodes.length === PREORDER.length) {
+    if (selectedNodes.length === traversal.length) {
       return;
     }
 
     if (nodeId === nextNode) {
+
       const updatedSelection = [
         ...selectedNodes,
         nodeId,
@@ -62,12 +75,12 @@ function TraversalPractice() {
       setSelectedNodes(updatedSelection);
       setAttempts(0);
 
-      if (updatedSelection.length === PREORDER.length) {
+      if (updatedSelection.length === traversal.length) {
         setFeedback({
           type: "success",
           title: "Correct!",
           message:
-            "You completed the preorder traversal: ROOT → LEFT → RIGHT.",
+            `You completed the ${type.toLowerCase()} traversal.`,
         });
 
         return;
@@ -77,7 +90,7 @@ function TraversalPractice() {
         type: "correct",
         title: "Correct.",
         message:
-          "Good. Now continue following ROOT → LEFT → RIGHT.",
+          `Good. Continue following ${getRule(type)}.`,
       });
 
       return;
@@ -91,40 +104,16 @@ function TraversalPractice() {
       setFeedback({
         type: "hint",
         title: "Not yet.",
-        message: getHint(nextNode),
+        message: getHint(type, nextNode),
       });
     } else {
       setFeedback({
         type: "wrong",
         title: "Not yet.",
         message:
-          "Think about the preorder rule: ROOT → LEFT → RIGHT.",
+          `Think about the rule: ${getRule(type)}.`,
       });
     }
-  }
-
-  function getHint(nodeId) {
-    if (nodeId === 10) {
-      return "Start with the root. Which node is at the top of the tree?";
-    }
-
-    if (nodeId === 5) {
-      return "You've visited the root. Now move to its left child.";
-    }
-
-    if (nodeId === 2) {
-      return "You're at node 5. Before moving to its right child, visit its left child.";
-    }
-
-    if (nodeId === 7) {
-      return "You've finished node 2. Now return to node 5 and visit its right child.";
-    }
-
-    if (nodeId === 15) {
-      return "You've finished the left subtree of 10. Now visit the right subtree.";
-    }
-
-    return "Follow ROOT → LEFT → RIGHT.";
   }
 
   function handleReset() {
@@ -136,40 +125,48 @@ function TraversalPractice() {
   return (
     <div className="traversal-practice-container">
 
-      {/* HEADER */}
+      {/* =================================
+          HEADER
+      ================================= */}
 
       <div className="practice-header">
 
         <div>
+
           <span className="traversal-practice-label">
             YOUR TURN
           </span>
 
           <h3>
-            Perform the preorder traversal.
+            Perform the {type.toLowerCase()} traversal.
           </h3>
 
           <p>
             Click the nodes in the correct order.
-            Your progress will not reset when you make
-            a mistake.
+            Your progress will not reset when you
+            make a mistake.
           </p>
+
         </div>
 
         <div className="practice-progress">
+
           <strong>
             {selectedNodes.length}
           </strong>
 
           <span>
-            / {PREORDER.length}
+            / {traversal.length}
           </span>
+
         </div>
 
       </div>
 
 
-      {/* TREE */}
+      {/* =================================
+          TREE
+      ================================= */}
 
       <div className="practice-tree">
 
@@ -181,8 +178,11 @@ function TraversalPractice() {
 
           {CONNECTIONS.map(([parent, child]) => {
 
-            const parentNode = TREE_NODES[parent];
-            const childNode = TREE_NODES[child];
+            const parentNode =
+              TREE_NODES[parent];
+
+            const childNode =
+              TREE_NODES[child];
 
             const isVisited =
               selectedNodes.includes(parent) &&
@@ -233,7 +233,7 @@ function TraversalPractice() {
               }}
               onClick={() => handleNodeClick(node.id)}
               disabled={
-                selectedNodes.length === PREORDER.length
+                selectedNodes.length === traversal.length
               }
               aria-label={`Node ${node.id}`}
             >
@@ -255,7 +255,9 @@ function TraversalPractice() {
       </div>
 
 
-      {/* CURRENT SEQUENCE */}
+      {/* =================================
+          SEQUENCE
+      ================================= */}
 
       <div className="practice-sequence">
 
@@ -265,14 +267,14 @@ function TraversalPractice() {
 
         <div className="practice-sequence-items">
 
-          {PREORDER.map((node, index) => {
+          {traversal.map((node, index) => {
 
             const selected =
               selectedNodes[index];
 
             return (
               <div
-                key={node}
+                key={`${node}-${index}`}
                 className={
                   selected
                     ? "practice-sequence-node filled"
@@ -289,7 +291,9 @@ function TraversalPractice() {
       </div>
 
 
-      {/* FEEDBACK */}
+      {/* =================================
+          FEEDBACK
+      ================================= */}
 
       {feedback && (
         <div
@@ -312,7 +316,9 @@ function TraversalPractice() {
       )}
 
 
-      {/* RESET */}
+      {/* =================================
+          RESET
+      ================================= */}
 
       <div className="practice-actions">
 
@@ -327,6 +333,134 @@ function TraversalPractice() {
 
     </div>
   );
+}
+
+function getRule(type) {
+  if (type === "PREORDER") {
+    return "ROOT → LEFT → RIGHT";
+  }
+
+  if (type === "INORDER") {
+    return "LEFT → ROOT → RIGHT";
+  }
+
+  if (type === "POSTORDER") {
+    return "LEFT → RIGHT → ROOT";
+  }
+
+  return "TOP → BOTTOM, LEFT → RIGHT";
+}
+
+function getHint(type, nodeId) {
+  if (type === "PREORDER") {
+    return getPreorderHint(nodeId);
+  }
+
+  if (type === "INORDER") {
+    return getInorderHint(nodeId);
+  }
+
+  if (type === "POSTORDER") {
+    return getPostorderHint(nodeId);
+  }
+
+  return getLevelOrderHint(nodeId);
+}
+
+function getPreorderHint(nodeId) {
+  if (nodeId === 10) {
+    return "Start with the root. Which node is at the top?";
+  }
+
+  if (nodeId === 5) {
+    return "You've visited the root. Move to its left child.";
+  }
+
+  if (nodeId === 2) {
+    return "At node 5, visit its left child before its right child.";
+  }
+
+  if (nodeId === 7) {
+    return "You've finished node 2. Return to node 5 and visit its right child.";
+  }
+
+  if (nodeId === 15) {
+    return "You've finished the left subtree. Now visit the right subtree.";
+  }
+
+  return "Follow ROOT → LEFT → RIGHT.";
+}
+
+function getInorderHint(nodeId) {
+  if (nodeId === 2) {
+    return "In inorder, we visit the left subtree before the root.";
+  }
+
+  if (nodeId === 5) {
+    return "You've reached the leftmost node. Now visit its parent.";
+  }
+
+  if (nodeId === 7) {
+    return "After visiting node 5, move to its right subtree.";
+  }
+
+  if (nodeId === 10) {
+    return "The left subtree of 10 is complete. Now visit 10.";
+  }
+
+  if (nodeId === 15) {
+    return "The left subtree and root are complete. Now visit 15.";
+  }
+
+  return "Follow LEFT → ROOT → RIGHT.";
+}
+
+function getPostorderHint(nodeId) {
+  if (nodeId === 2) {
+    return "Postorder starts with the left subtree.";
+  }
+
+  if (nodeId === 7) {
+    return "Node 2 is complete. Now finish the remaining child of node 5.";
+  }
+
+  if (nodeId === 5) {
+    return "Both children of node 5 are complete. Now visit node 5.";
+  }
+
+  if (nodeId === 15) {
+    return "The left subtree is complete. Now visit the right child of 10.";
+  }
+
+  if (nodeId === 10) {
+    return "Both subtrees are complete. Now visit the root.";
+  }
+
+  return "Follow LEFT → RIGHT → ROOT.";
+}
+
+function getLevelOrderHint(nodeId) {
+  if (nodeId === 10) {
+    return "Start at the top of the tree.";
+  }
+
+  if (nodeId === 5) {
+    return "After the root, move from left to right across the next level.";
+  }
+
+  if (nodeId === 15) {
+    return "Visit the other node on the same level before going deeper.";
+  }
+
+  if (nodeId === 2) {
+    return "The second level is complete. Now move to the next level.";
+  }
+
+  if (nodeId === 7) {
+    return "Continue across the current level from left to right.";
+  }
+
+  return "Follow TOP → BOTTOM, LEFT → RIGHT.";
 }
 
 export default TraversalPractice;

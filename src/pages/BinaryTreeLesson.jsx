@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import BinaryTree from "../components/visualizations/BinaryTree";
 import TraversalSection from "../components/learning/TraversalSection";
 
@@ -6,10 +8,23 @@ function BinaryTreeLesson() {
     <main className="binary-tree-lesson">
 
       {/* =================================
+          LESSON NAVIGATION
+      ================================= */}
+
+      <div className="lesson-navigation">
+        <Link to="/learn" className="lesson-back">
+          <span>←</span>
+          BACK TO LESSONS
+        </Link>
+      </div>
+
+
+      {/* =================================
           LESSON INTRO
       ================================= */}
 
       <section className="lesson-hero">
+
         <span className="section-label">
           LESSON 01 / BINARY TREES
         </span>
@@ -25,6 +40,7 @@ function BinaryTreeLesson() {
           understand their parts, and explore how
           we traverse them.
         </p>
+
       </section>
 
 
