@@ -1,9 +1,13 @@
+import { Link } from "react-router-dom";
+
 import TreeTraversalPreview from "./TreeTraversalPreview";
 
 function Hero() {
   return (
     <section className="hero">
+
       <div className="hero-content">
+
         <span className="hero-label">
           DATA STRUCTURES / INTERACTIVE LEARNING
         </span>
@@ -20,15 +24,18 @@ function Hero() {
           how they work.
         </p>
 
-        <a
-          href="#learn"
+        <Link
+          to="/learn"
           className="primary-button"
         >
-          Start Learning →
-        </a>
+          START LEARNING
+          <span>→</span>
+        </Link>
+
       </div>
 
       <TreeTraversalPreview />
+
     </section>
   );
 }
