@@ -4926,3 +4926,1316 @@ a {
   }
 }
 
+/* =========================================
+   AVL ROTATION
+========================================= */
+
+.avl-rotation-section {
+  margin-top: 5rem;
+  padding-top: 4rem;
+  border-top: 1px solid #252a26;
+}
+
+.avl-rotation-header {
+  max-width: 720px;
+}
+
+.avl-rotation-header h3 {
+  margin: 0.5rem 0;
+  font-size: 2rem;
+}
+
+.avl-rotation-header p {
+  color: #8d938e;
+  line-height: 1.7;
+}
+
+
+/* TABS */
+
+.avl-rotation-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.avl-rotation-tab {
+  min-width: 64px;
+  min-height: 44px;
+
+  border: 1px solid #303630;
+  border-radius: 8px;
+
+  background: #10141a;
+  color: #8d938e;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.avl-rotation-tab.active {
+  border-color: #b6e36b;
+  color: #b6e36b;
+}
+
+.avl-rotation-tab:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+
+/* MAIN CONTENT */
+
+.avl-rotation-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(280px, 0.8fr)
+    minmax(400px, 1.2fr);
+
+  gap: 1.5rem;
+
+  margin-top: 1.5rem;
+}
+
+
+/* INFO */
+
+.avl-rotation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 1.5rem;
+
+  border: 1px solid #252a26;
+  border-radius: 16px;
+
+  background: #10141a;
+}
+
+.avl-rotation-info h4 {
+  margin: 0;
+
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+.avl-rotation-rule {
+  padding: 1rem;
+
+  border-left: 2px solid #3c443d;
+
+  background: #0c1014;
+}
+
+.avl-rotation-rule span,
+.avl-rotation-action span {
+  display: block;
+
+  margin-bottom: 0.5rem;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-rotation-rule p {
+  margin: 0.4rem 0;
+
+  color: #b8beb9;
+  line-height: 1.5;
+}
+
+
+/* ROTATION ANSWER */
+
+.avl-rotation-action {
+  padding: 1.25rem;
+
+  border: 1px solid #b6e36b;
+  border-radius: 12px;
+
+  background: rgba(182, 227, 107, 0.04);
+}
+
+.avl-rotation-action strong {
+  display: block;
+
+  color: #b6e36b;
+
+  font-size: 1.3rem;
+}
+
+
+/* BUTTON */
+
+.avl-rotation-actions {
+  margin-top: auto;
+}
+
+.avl-rotation-button {
+  width: 100%;
+  min-height: 52px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #b6e36b;
+  color: #080e13;
+
+  font-weight: 800;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.avl-rotation-button:hover {
+  transform: translateY(-2px);
+}
+
+.avl-rotation-button:active {
+  transform: translateY(0);
+}
+
+.avl-rotation-button.secondary {
+  background: #181d1b;
+  color: #b6e36b;
+  border: 1px solid #3b443c;
+}
+
+
+/* VISUAL */
+
+.avl-rotation-visual {
+  min-height: 500px;
+
+  padding: 1.5rem;
+
+  border: 1px solid #252a26;
+  border-radius: 16px;
+
+  background: #10141a;
+}
+
+.avl-rotation-stage {
+  position: relative;
+
+  min-height: 390px;
+}
+
+.avl-visual-label {
+  display: block;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+
+/* TREE */
+
+.avl-rotation-tree {
+  position: relative;
+
+  width: 100%;
+  max-width: 500px;
+
+  height: 360px;
+
+  margin: 0 auto;
+}
+
+.avl-tree-lines {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.avl-tree-lines line {
+  stroke: #414841;
+  stroke-width: 0.35;
+}
+
+
+/* NODES */
+
+.rotation-node-root,
+.rotation-node-middle,
+.rotation-node-bottom {
+  position: absolute;
+
+  width: 58px;
+  height: 58px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #181d1b;
+
+  border: 2px solid #565d57;
+
+  color: #f0f2ef;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  z-index: 2;
+}
+
+.rotation-node-root {
+  left: 50%;
+  top: 25%;
+}
+
+.rotation-node-middle {
+  left: 35%;
+  top: 60%;
+}
+
+.rotation-node-bottom {
+  left: 20%;
+  top: 90%;
+}
+
+
+/* HIGHLIGHT */
+
+.rotation-highlight {
+  border-color: #b6e36b;
+
+  box-shadow:
+    0 0 0 5px rgba(182, 227, 107, 0.08);
+}
+
+
+/* RESULT */
+
+.avl-rotation-result {
+  margin-top: 1rem;
+
+  padding: 1.25rem;
+
+  border: 1px solid #b6e36b;
+  border-radius: 12px;
+
+  background: rgba(182, 227, 107, 0.04);
+}
+
+.avl-rotation-result span {
+  display: block;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-rotation-result strong {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: #b6e36b;
+}
+
+.avl-rotation-result p {
+  margin: 0.4rem 0 0;
+
+  color: #8d938e;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .avl-rotation-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .avl-rotation-tabs {
+    overflow-x: auto;
+  }
+
+  .avl-rotation-tab {
+    flex-shrink: 0;
+  }
+
+  .avl-rotation-visual {
+    min-height: 420px;
+  }
+
+  .avl-rotation-tree {
+    height: 320px;
+  }
+
+  .rotation-node-root,
+  .rotation-node-middle,
+  .rotation-node-bottom {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* =========================================================
+   AVL ROTATION SECTION
+========================================================= */
+
+.avl-rotation-section {
+  margin-top: 5rem;
+  padding-top: 4rem;
+  border-top: 1px solid #252a26;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.avl-rotation-header {
+  max-width: 720px;
+}
+
+.avl-rotation-header h3 {
+  margin: 0.5rem 0;
+  font-size: 2rem;
+}
+
+.avl-rotation-header p {
+  color: #8d938e;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   ROTATION TABS
+========================================================= */
+
+.avl-rotation-tabs {
+  display: flex;
+  gap: 0.5rem;
+
+  margin-top: 2rem;
+}
+
+.avl-rotation-tab {
+  min-width: 64px;
+  min-height: 44px;
+
+  padding: 0.6rem 1rem;
+
+  border: 1px solid #303630;
+  border-radius: 8px;
+
+  background: #10141a;
+  color: #8d938e;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.avl-rotation-tab.active {
+  border-color: #b6e36b;
+  color: #b6e36b;
+}
+
+.avl-rotation-tab:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MAIN ROTATION CONTENT
+========================================================= */
+
+.avl-rotation-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(280px, 0.8fr)
+    minmax(400px, 1.2fr);
+
+  gap: 1.5rem;
+
+  margin-top: 1.5rem;
+}
+
+
+/* =========================================================
+   INFORMATION PANEL
+========================================================= */
+
+.avl-rotation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  min-width: 0;
+
+  padding: 1.5rem;
+
+  border: 1px solid #252a26;
+  border-radius: 16px;
+
+  background: #10141a;
+}
+
+.avl-rotation-info h4 {
+  margin: 0;
+
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   ROTATION RULE
+========================================================= */
+
+.avl-rotation-rule {
+  padding: 1rem;
+
+  border-left: 2px solid #3c443d;
+
+  background: #0c1014;
+}
+
+.avl-rotation-rule span,
+.avl-rotation-action span {
+  display: block;
+
+  margin-bottom: 0.5rem;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-rotation-rule p {
+  margin: 0.4rem 0;
+
+  color: #b8beb9;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ROTATION ANSWER
+========================================================= */
+
+.avl-rotation-action {
+  padding: 1.25rem;
+
+  border: 1px solid #b6e36b;
+  border-radius: 12px;
+
+  background: rgba(182, 227, 107, 0.04);
+}
+
+.avl-rotation-action strong {
+  display: block;
+
+  color: #b6e36b;
+
+  font-size: 1.3rem;
+}
+
+.avl-rotation-action p {
+  margin: 0.6rem 0 0;
+
+  color: #8d938e;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.avl-rotation-button {
+  width: 100%;
+
+  min-height: 52px;
+
+  margin-top: auto;
+
+  padding: 0.8rem 1rem;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #b6e36b;
+  color: #080e13;
+
+  font-weight: 800;
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.avl-rotation-button:hover {
+  transform: translateY(-2px);
+}
+
+.avl-rotation-button:active {
+  transform: translateY(0);
+}
+
+.avl-rotation-button span {
+  margin-left: 0.5rem;
+}
+
+
+/* =========================================================
+   VISUALIZATION PANEL
+========================================================= */
+
+.avl-rotation-visual {
+  min-height: 500px;
+
+  padding: 1.5rem;
+
+  border: 1px solid #252a26;
+  border-radius: 16px;
+
+  background: #10141a;
+}
+
+.avl-rotation-stage {
+  position: relative;
+
+  min-height: 420px;
+}
+
+.avl-visual-label {
+  display: block;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+
+/* =========================================================
+   ANIMATED TREE
+========================================================= */
+
+.avl-rotation-tree {
+  position: relative;
+
+  width: 100%;
+  max-width: 500px;
+
+  height: 380px;
+
+  margin: 1rem auto 0;
+}
+
+
+/*
+  IMPORTANT:
+  These rules specifically override the generic
+  .avl-node styles used by the Balance Factor diagram.
+*/
+
+.avl-rotation-tree .avl-node {
+  position: absolute;
+
+  width: 58px;
+  height: 58px;
+
+  margin: 0;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #181d1b;
+
+  border: 2px solid #565d57;
+
+  color: #f0f2ef;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+
+  z-index: 5;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   INITIAL POSITIONS
+========================================================= */
+
+.avl-rotation-tree .rotation-node-root {
+  left: 50%;
+  top: 25%;
+}
+
+.avl-rotation-tree .rotation-node-middle {
+  left: 35%;
+  top: 60%;
+}
+
+.avl-rotation-tree .rotation-node-bottom {
+  left: 20%;
+  top: 90%;
+}
+
+
+/* =========================================================
+   TREE CONNECTIONS
+========================================================= */
+
+.avl-rotation-tree .avl-tree-lines {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.avl-rotation-tree .avl-tree-lines line {
+  stroke: #414841;
+
+  stroke-width: 0.35;
+
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* =========================================================
+   FINAL RESULT
+========================================================= */
+
+.avl-rotation-result {
+  margin-top: 1rem;
+
+  padding: 1rem 1.25rem;
+
+  border: 1px solid #b6e36b;
+  border-radius: 12px;
+
+  background: rgba(182, 227, 107, 0.04);
+}
+
+.avl-rotation-result span {
+  display: block;
+
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-rotation-result strong {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: #b6e36b;
+}
+
+.avl-rotation-result p {
+  margin: 0.4rem 0 0;
+
+  color: #8d938e;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .avl-rotation-content {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .avl-rotation-tabs {
+    overflow-x: auto;
+
+    padding-bottom: 0.25rem;
+  }
+
+  .avl-rotation-tab {
+    flex-shrink: 0;
+  }
+
+  .avl-rotation-visual {
+    min-height: 430px;
+
+    padding: 1rem;
+  }
+
+  .avl-rotation-stage {
+    min-height: 360px;
+  }
+
+  .avl-rotation-tree {
+    height: 320px;
+  }
+
+  .avl-rotation-tree .avl-node {
+    width: 48px;
+    height: 48px;
+
+    font-size: 1rem;
+  }
+
+}
+
+/* =========================================================
+   AVL ROTATION WORKSPACE
+========================================================= */
+
+.avl-rotation-workspace {
+  display: grid;
+
+  grid-template-columns:
+    minmax(300px, 0.9fr)
+    minmax(380px, 1.1fr);
+
+  gap: 1.5rem;
+
+  margin-top: 1.5rem;
+}
+
+
+/* =========================================================
+   LEFT — IMBALANCE
+========================================================= */
+
+.avl-imbalance-panel {
+  padding: 1.5rem;
+
+  border: 1px solid #252a26;
+  border-radius: 16px;
+
+  background: #10141a;
+}
+
+.avl-imbalance-panel h4 {
+  margin: 0.5rem 0;
+
+  font-size: 1.4rem;
+}
+
+.avl-imbalance-description {
+  margin: 0;
+
+  color: #8d938e;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   IMBALANCE TREE
+========================================================= */
+
+.avl-imbalance-tree {
+  position: relative;
+
+  width: 100%;
+  height: 300px;
+
+  margin: 1.5rem auto;
+}
+
+.avl-imbalance-lines {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.avl-imbalance-lines line {
+  stroke: #414841;
+
+  stroke-width: 0.35;
+
+  vector-effect: non-scaling-stroke;
+}
+
+.avl-imbalance-node {
+  position: absolute;
+
+  width: 54px;
+  height: 54px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #181d1b;
+
+  border: 2px solid #565d57;
+
+  color: #f0f2ef;
+
+  font-weight: 700;
+
+  z-index: 2;
+}
+
+.avl-imbalance-node.root {
+  left: 50%;
+  top: 22%;
+}
+
+.avl-imbalance-node.middle {
+  left: 35%;
+  top: 55%;
+}
+
+.avl-imbalance-node.bottom {
+  left: 20%;
+  top: 88%;
+}
+
+
+/* =========================================================
+   BALANCE FACTOR
+========================================================= */
+
+.avl-imbalance-factor {
+  display: grid;
+
+  grid-template-columns:
+    1fr auto;
+
+  gap: 0.25rem 1rem;
+
+  padding: 1rem;
+
+  border: 1px solid #303630;
+  border-radius: 10px;
+
+  background: #0c1014;
+}
+
+.avl-imbalance-factor span {
+  font-size: 0.68rem;
+
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-imbalance-factor strong {
+  grid-row: span 2;
+
+  align-self: center;
+
+  color: #f0a36b;
+
+  font-size: 2rem;
+}
+
+.avl-imbalance-factor p {
+  margin: 0;
+
+  color: #8d938e;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   HEAVY PATH
+========================================================= */
+
+.avl-heavy-path {
+  margin-top: 1rem;
+
+  padding: 1rem;
+
+  border-left: 2px solid #b6e36b;
+
+  background: #0c1014;
+}
+
+.avl-heavy-path span,
+.avl-needed-rotation span {
+  display: block;
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-heavy-path strong {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: #b6e36b;
+
+  font-size: 1.1rem;
+}
+
+
+/* =========================================================
+   ROTATION NEEDED
+========================================================= */
+
+.avl-needed-rotation {
+  margin-top: 1rem;
+
+  padding: 1rem;
+
+  border: 1px solid #b6e36b;
+
+  border-radius: 10px;
+
+  background: rgba(182, 227, 107, 0.04);
+}
+
+.avl-needed-rotation strong {
+  display: block;
+
+  margin-top: 0.4rem;
+
+  color: #b6e36b;
+
+  font-size: 1.2rem;
+}
+
+
+/* =========================================================
+   RIGHT — ANIMATION PANEL
+========================================================= */
+
+.avl-animation-panel {
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 1.5rem;
+
+  border: 1px solid #252a26;
+
+  border-radius: 16px;
+
+  background: #10141a;
+}
+
+
+/* =========================================================
+   ANIMATION HEADER
+========================================================= */
+
+.avl-animation-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 1rem;
+}
+
+.avl-animation-header h4 {
+  margin: 0.4rem 0 0;
+
+  font-size: 1.4rem;
+}
+
+.avl-animation-status {
+  padding: 0.4rem 0.7rem;
+
+  border: 1px solid #303630;
+
+  border-radius: 999px;
+
+  color: #8d938e;
+
+  font-size: 0.65rem;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   ANIMATION STAGE
+========================================================= */
+
+.avl-animation-stage {
+  position: relative;
+
+  width: 100%;
+
+  height: 330px;
+
+  margin-top: 1rem;
+}
+
+
+/* =========================================================
+   ANIMATION CONNECTIONS
+========================================================= */
+
+.avl-animation-lines {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.avl-animation-lines line {
+  stroke: #414841;
+
+  stroke-width: 0.35;
+
+  vector-effect: non-scaling-stroke;
+}
+
+
+/* =========================================================
+   ANIMATED NODES
+========================================================= */
+
+.avl-animation-node {
+  position: absolute;
+
+  width: 58px;
+  height: 58px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #181d1b;
+
+  border: 2px solid #565d57;
+
+  color: #f0f2ef;
+
+  font-size: 1.1rem;
+
+  font-weight: 700;
+
+  z-index: 5;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   EXPLANATION
+========================================================= */
+
+.avl-animation-explanation {
+  min-height: 72px;
+
+  padding: 1rem;
+
+  border-top: 1px solid #252a26;
+  border-bottom: 1px solid #252a26;
+}
+
+.avl-animation-explanation span {
+  display: block;
+
+  font-size: 0.68rem;
+
+  letter-spacing: 0.12em;
+
+  color: #7d847e;
+}
+
+.avl-animation-explanation p {
+  margin: 0.35rem 0 0;
+
+  color: #b8beb9;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
+
+.avl-play-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.6rem;
+
+  width: 100%;
+
+  min-height: 54px;
+
+  margin-top: 1rem;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #b6e36b;
+
+  color: #080e13;
+
+  font-weight: 800;
+
+  letter-spacing: 0.04em;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.avl-play-button:hover {
+  transform: translateY(-2px);
+}
+
+.avl-play-button:active {
+  transform: translateY(0);
+}
+
+.avl-play-icon {
+  font-size: 1rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .avl-rotation-workspace {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .avl-animation-stage {
+    height: 290px;
+  }
+
+  .avl-animation-node {
+    width: 48px;
+    height: 48px;
+
+    font-size: 1rem;
+  }
+
+  .avl-imbalance-tree {
+    height: 260px;
+  }
+
+  .avl-imbalance-node {
+    width: 48px;
+    height: 48px;
+  }
+
+}
+
+/* =====================================================
+   RR UNBALANCED TREE
+===================================================== */
+
+.avl-imbalance-node.rr-root {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  transform: translate(-50%, -50%);
+}
+
+.avl-imbalance-node.rr-middle {
+  position: absolute;
+  left: 65%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.avl-imbalance-node.rr-bottom {
+  position: absolute;
+  left: 80%;
+  top: 88%;
+  transform: translate(-50%, -50%);
+}
+
