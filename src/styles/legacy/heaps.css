@@ -1,0 +1,367 @@
+/* =================================
+   HEAPS AND PRIORITY QUEUES
+================================= */
+
+.heap-lesson {
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-bottom: 120px;
+}
+
+.heap-section {
+  max-width: 1000px;
+}
+
+.heap-two-column,
+.heap-demo-grid,
+.heap-code-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.1fr) minmax(300px, 0.9fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.heap-tree,
+.heap-explanation-card,
+.heap-check-card,
+.heap-info-card,
+.heap-demo-card {
+  border: 1px solid var(--border);
+  background: #0c0f0d;
+}
+
+.heap-tree {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    #090c0a;
+  background-size: 28px 28px;
+}
+
+.heap-tree-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.heap-tree-lines line {
+  stroke: #343934;
+  stroke-width: 0.55;
+}
+
+.heap-tree-lines line.active {
+  stroke: var(--accent);
+  stroke-width: 1.1;
+}
+
+.heap-node {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #3b413b;
+  border-radius: 50%;
+  background: #101410;
+  color: #d8ddd8;
+  font-family: monospace;
+  font-weight: 800;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.heap-node small {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  min-width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #1f241f;
+  color: #8d938e;
+  font-size: 8px;
+}
+
+.heap-node:hover,
+.heap-node.active,
+.heap-node.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.heap-node.active small,
+.heap-node.selected small {
+  background: var(--accent);
+  color: #080a09;
+}
+
+.heap-explanation-card,
+.heap-check-card,
+.heap-info-card,
+.heap-demo-card {
+  padding: 1.25rem;
+}
+
+.heap-explanation-card span,
+.heap-check-card span,
+.heap-info-card span,
+.heap-demo-card > span {
+  display: block;
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.heap-explanation-card strong {
+  display: block;
+  margin: 0.75rem 0;
+  color: #eee;
+  font-size: 2rem;
+}
+
+.heap-explanation-card p,
+.heap-check-card p,
+.heap-info-card p,
+.heap-demo-card p,
+.heap-callout,
+.heap-index-details {
+  color: #8d938e;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.heap-toggle,
+.heap-inline-actions,
+.heap-step-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.heap-toggle button,
+.heap-inline-actions button,
+.heap-step-controls button,
+.heap-playground-controls button,
+.heap-check-card button {
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid #303630;
+  background: transparent;
+  color: #8d938e;
+  font-family: monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.heap-toggle button.active,
+.heap-toggle button:hover,
+.heap-inline-actions button:hover,
+.heap-step-controls button:hover:not(:disabled),
+.heap-playground-controls button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.heap-step-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.heap-shape-grid,
+.heap-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.heap-shape-grid div {
+  min-height: 74px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  background: #101410;
+  color: #eee;
+  font-family: monospace;
+  font-weight: 800;
+}
+
+.heap-shape-grid div.missing {
+  border-style: dashed;
+  color: #f0a36b;
+}
+
+.heap-callout {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-left: 2px solid var(--accent);
+  background: #090c0a;
+}
+
+.heap-array {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  background: #0c0f0d;
+}
+
+.heap-array-row {
+  display: grid;
+  grid-template-columns: 72px repeat(var(--heap-cells, 7), minmax(42px, 1fr));
+}
+
+.heap-array-label,
+.heap-array-cell {
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: #777;
+  font-family: monospace;
+  font-size: 0.75rem;
+}
+
+.heap-array-cell.value {
+  color: #eee;
+  font-weight: 800;
+}
+
+.heap-array-cell.active,
+.heap-array-cell.selected {
+  background: rgba(184, 255, 70, 0.08);
+  color: var(--accent);
+}
+
+.heap-index-details {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: #0c0f0d;
+}
+
+.heap-index-details span {
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.heap-playground-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: 1.5rem;
+}
+
+.heap-playground-controls label,
+.heap-check-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: #777;
+  font-family: monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+}
+
+.heap-playground-controls input,
+.heap-check-card input {
+  min-height: 40px;
+  width: 110px;
+  border: 1px solid #303630;
+  background: #090c0a;
+  color: #eee;
+  padding: 0 0.75rem;
+}
+
+.heap-demo-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.heap-demo-card h3 {
+  margin: 0.75rem 0;
+}
+
+.heap-demo-card .heap-tree {
+  min-height: 300px;
+}
+
+.heap-code-grid pre {
+  min-width: 0;
+  overflow-x: auto;
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  background: #090c0a;
+  color: #d8ddd8;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.heap-check-card .correct,
+.heap-check-card .wrong,
+.correct {
+  color: var(--accent);
+}
+
+.wrong {
+  color: #f0a36b;
+}
+
+@media (max-width: 900px) {
+  .heap-two-column,
+  .heap-demo-grid,
+  .heap-code-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heap-tree {
+    min-height: 330px;
+  }
+}
+
+@media (max-width: 600px) {
+  .heap-lesson {
+    width: calc(100% - 28px);
+  }
+
+  .heap-card-grid,
+  .heap-shape-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .heap-node {
+    width: 44px;
+    height: 44px;
+    font-size: 0.8rem;
+  }
+
+  .heap-playground-controls,
+  .heap-inline-actions,
+  .heap-step-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
