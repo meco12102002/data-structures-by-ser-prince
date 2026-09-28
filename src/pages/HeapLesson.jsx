@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 
 import SEO from "../components/SEO";
+import InfoPopover from "../components/learning/InfoPopover";
 import {
   HeapArrayView,
   HeapIndexDetails,
@@ -61,6 +62,47 @@ const validationExamples = [
   },
 ];
 
+const heapTypeExamples = [
+  {
+    heap: [50, 30, 20, 15, 10, 8, 5],
+    answer: "max",
+    explanation:
+      "Every parent is greater than or equal to its children, so this is a valid Max-Heap.",
+  },
+  {
+    heap: [5, 10, 15, 30, 20, 50, 40],
+    answer: "min",
+    explanation:
+      "Every parent is less than or equal to its children, so this is a valid Min-Heap.",
+  },
+  {
+    heap: [50, 30, 60, 15, 10, 8, 5],
+    answer: "invalid",
+    violation: [0, 2],
+    explanation:
+      "60 is a child of 50, and 60 > 50. That breaks the Max-Heap rule. It is also not a Min-Heap because 50 > 30.",
+  },
+  {
+    heap: [8, 12, 10, 20, 25, 15, 30],
+    answer: "min",
+    explanation:
+      "Each parent is smaller than its children, so the smallest value stays at the root.",
+  },
+  {
+    heap: [42, 35, 28, 18, 30, 12, 20],
+    answer: "max",
+    explanation:
+      "42 stays at the root, and every parent is greater than or equal to its children.",
+  },
+  {
+    heap: [10, 20, 15, 8, 25, 30, 40],
+    answer: "invalid",
+    violation: [1, 3],
+    explanation:
+      "8 is below 20, which breaks the Min-Heap rule. The root 10 also cannot make this a Max-Heap.",
+  },
+];
+
 const priorityJobs = [
   {
     name: "Department Chair",
@@ -80,7 +122,67 @@ const priorityJobs = [
   },
 ];
 
+const heapLessonSections = [
+  {
+    title: "Heap Data Structure",
+    Component: HeapIntroSection,
+  },
+  {
+    title: "Shape Property",
+    Component: HeapShapeSection,
+  },
+  {
+    title: "Max vs Min Heap",
+    Component: HeapTypeSection,
+  },
+  {
+    title: "Array Representation",
+    Component: HeapArraySection,
+  },
+  {
+    title: "Heap Explorer",
+    Component: HeapPlaygroundSection,
+  },
+  {
+    title: "Heapify",
+    Component: HeapifySection,
+  },
+  {
+    title: "Operations",
+    Component: OperationCards,
+  },
+  {
+    title: "Priority Queues",
+    Component: PriorityQueueSection,
+  },
+  {
+    title: "Java PriorityQueue",
+    Component: JavaPriorityQueueSection,
+  },
+  {
+    title: "Predict Practice",
+    Component: HeapPracticeSection,
+  },
+  {
+    title: "Validation",
+    Component: HeapValidationSection,
+  },
+  {
+    title: "Array Indexes",
+    Component: ArrayIndexExercise,
+  },
+  {
+    title: "Applications",
+    Component: HeapApplications,
+  },
+];
+
 function HeapLesson() {
+  const [viewMode, setViewMode] = useState("default");
+  const [activeSlide, setActiveSlide] = useState(0);
+  const ActiveSection = heapLessonSections[activeSlide].Component;
+  const isSlideMode = viewMode === "slides";
+
   return (
     <>
       <SEO
@@ -115,19 +217,92 @@ function HeapLesson() {
           </p>
         </header>
 
-        <HeapIntroSection />
-        <HeapShapeSection />
-        <HeapTypeSection />
-        <HeapArraySection />
-        <HeapPlaygroundSection />
-        <HeapifySection />
-        <OperationCards />
-        <PriorityQueueSection />
-        <JavaPriorityQueueSection />
-        <HeapPracticeSection />
-        <HeapValidationSection />
-        <ArrayIndexExercise />
-        <HeapApplications />
+        <div className="heap-view-switcher">
+          <div>
+            <span>LESSON VIEW</span>
+            <strong>
+              {isSlideMode
+                ? `Slide ${activeSlide + 1} of ${heapLessonSections.length}`
+                : "Default full lesson"}
+            </strong>
+          </div>
+
+          <div className="heap-toggle">
+            <button
+              type="button"
+              className={!isSlideMode ? "active" : ""}
+              onClick={() => setViewMode("default")}
+            >
+              DEFAULT
+            </button>
+
+            <button
+              type="button"
+              className={isSlideMode ? "active" : ""}
+              onClick={() => setViewMode("slides")}
+            >
+              SLIDES
+            </button>
+          </div>
+        </div>
+
+        {isSlideMode ? (
+          <div className="heap-slide-shell">
+            <div className="heap-slide-topbar">
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveSlide((current) =>
+                    Math.max(current - 1, 0)
+                  )
+                }
+                disabled={activeSlide === 0}
+              >
+                PREVIOUS
+              </button>
+
+              <select
+                value={activeSlide}
+                onChange={(event) =>
+                  setActiveSlide(Number(event.target.value))
+                }
+                aria-label="Choose heap lesson slide"
+              >
+                {heapLessonSections.map((section, index) => (
+                  <option value={index} key={section.title}>
+                    {index + 1}. {section.title}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveSlide((current) =>
+                    Math.min(current + 1, heapLessonSections.length - 1)
+                  )
+                }
+                disabled={activeSlide === heapLessonSections.length - 1}
+              >
+                NEXT
+              </button>
+            </div>
+
+            <div className="heap-slide-progress">
+              <span
+                style={{
+                  width: `${((activeSlide + 1) / heapLessonSections.length) * 100}%`,
+                }}
+              />
+            </div>
+
+            <ActiveSection />
+          </div>
+        ) : (
+          heapLessonSections.map(({ title, Component }) => (
+            <Component key={title} />
+          ))
+        )}
 
         <div className="lesson-footer-navigation">
           <Link to="/learn" className="lesson-back">
@@ -158,7 +333,13 @@ function HeapIntroSection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">01 / HEAP DATA STRUCTURE</span>
-      <h2>A heap is a complete binary tree with priority rules.</h2>
+      <div className="heap-section-heading">
+        <h2>A heap is a complete binary tree with priority rules.</h2>
+        <InfoPopover title="Why does the root matter?">
+          The root is the fastest value to access. A Max-Heap keeps the
+          largest value there, while a Min-Heap keeps the smallest value there.
+        </InfoPopover>
+      </div>
       <p>
         In a Max-Heap, every parent is greater than or
         equal to its children. That keeps the maximum
@@ -198,12 +379,57 @@ function HeapIntroSection() {
 
 function HeapShapeSection() {
   const [shape, setShape] = useState("valid");
-  const heap = shape === "valid" ? [50, 30, 20, 15, 10, 8] : [50, 30, 20, 15, null, 8];
+  const validHeap = [50, 30, 20, 15, 10, 8];
+  const invalidNodes = [
+    {
+      value: 50,
+      index: 0,
+      x: 50,
+      y: 13,
+    },
+    {
+      value: 30,
+      index: 1,
+      x: 33,
+      y: 39,
+    },
+    {
+      value: 20,
+      index: 2,
+      x: 67,
+      y: 39,
+    },
+    {
+      value: 15,
+      index: 3,
+      x: 22,
+      y: 67,
+    },
+    {
+      value: null,
+      index: 4,
+      x: 44,
+      y: 67,
+      missing: true,
+    },
+    {
+      value: 8,
+      index: 5,
+      x: 56,
+      y: 67,
+    },
+  ];
 
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">02 / SHAPE PROPERTY</span>
-      <h2>Heap nodes fill level by level, left to right.</h2>
+      <div className="heap-section-heading">
+        <h2>Heap nodes fill level by level, left to right.</h2>
+        <InfoPopover title="Why insert at the next spot?">
+          Heaps must stay complete. Inserting at the next open position keeps
+          the tree compact and lets the array formulas keep working.
+        </InfoPopover>
+      </div>
       <p>
         A new heap value is inserted into the next open
         position so the tree stays complete.
@@ -226,16 +452,14 @@ function HeapShapeSection() {
         </button>
       </div>
 
-      <div className="heap-shape-grid">
-        {heap.map((value, index) => (
-          <div
-            key={`${index}-${value}`}
-            className={value === null ? "missing" : ""}
-          >
-            {value ?? "SKIPPED"}
-          </div>
-        ))}
-      </div>
+      {shape === "valid" ? (
+        <HeapTree
+          heap={validHeap}
+          label="Valid complete heap shape"
+        />
+      ) : (
+        <IncompleteHeapTree nodes={invalidNodes} />
+      )}
 
       <div className="heap-callout">
         {shape === "valid"
@@ -246,16 +470,90 @@ function HeapShapeSection() {
   );
 }
 
+function IncompleteHeapTree({ nodes }) {
+  const connections = [
+    [0, 1],
+    [0, 2],
+    [1, 3],
+    [1, 4],
+    [2, 5],
+  ];
+
+  return (
+    <div
+      className="heap-tree incomplete-heap-tree"
+      role="img"
+      aria-label="Invalid complete binary tree shape with a skipped left-to-right position"
+    >
+      <svg
+        className="heap-tree-lines"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        {connections.map(([parentIndex, childIndex]) => {
+          const parent = nodes.find((node) => node.index === parentIndex);
+          const child = nodes.find((node) => node.index === childIndex);
+
+          return (
+            <line
+              key={`${parentIndex}-${childIndex}`}
+              x1={parent.x}
+              y1={parent.y}
+              x2={child.x}
+              y2={child.y}
+              className={child.missing ? "missing" : ""}
+            />
+          );
+        })}
+      </svg>
+
+      {nodes.map((node) => (
+        <div
+          key={node.index}
+          className={[
+            "heap-node",
+            node.missing ? "missing-slot" : "",
+          ].join(" ")}
+          style={{
+            left: `${node.x}%`,
+            top: `${node.y}%`,
+          }}
+        >
+          <span>{node.missing ? "SKIP" : node.value}</span>
+          <small>#{node.index + 1}</small>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function HeapTypeSection() {
   const [type, setType] = useState("max");
   const [answer, setAnswer] = useState(null);
+  const [exampleIndex, setExampleIndex] = useState(0);
   const heap = type === "max" ? DEFAULT_MAX_HEAP : DEFAULT_MIN_HEAP;
-  const checkHeap = [50, 30, 60, 15, 10, 8, 5];
+  const example = heapTypeExamples[exampleIndex];
+  const feedbackIsCorrect = answer === example.answer;
+
+  function generateExample() {
+    setExampleIndex(
+      (current) => (current + 1) % heapTypeExamples.length
+    );
+    setAnswer(null);
+  }
 
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">03 / MAX-HEAP VS MIN-HEAP</span>
-      <h2>The root changes depending on the priority rule.</h2>
+      <div className="heap-section-heading">
+        <h2>The root changes depending on the priority rule.</h2>
+        <InfoPopover title="Why two heap types?">
+          Use a Max-Heap when the biggest value has priority. Use a Min-Heap
+          when the smallest value has priority, like shortest distance or
+          earliest event time.
+        </InfoPopover>
+      </div>
 
       <HeapTypeToggle type={type} onChange={setType} />
 
@@ -274,17 +572,29 @@ function HeapTypeSection() {
 
       <div className="heap-check-card">
         <span>CHECK THE HEAP</span>
-        <p>Is this a valid Max-Heap?</p>
-        <HeapTree heap={checkHeap} activeIndices={answer ? [0, 2] : []} />
+        <p>What kind of heap is this example?</p>
+        <HeapTree
+          heap={example.heap}
+          activeIndices={answer && example.violation ? example.violation : []}
+        />
         <div className="heap-inline-actions">
-          <button type="button" onClick={() => setAnswer("yes")}>YES</button>
-          <button type="button" onClick={() => setAnswer("no")}>NO</button>
+          <button type="button" onClick={() => setAnswer("max")}>
+            VALID MAX-HEAP
+          </button>
+          <button type="button" onClick={() => setAnswer("min")}>
+            VALID MIN-HEAP
+          </button>
+          <button type="button" onClick={() => setAnswer("invalid")}>
+            NOT A HEAP
+          </button>
+          <button type="button" onClick={generateExample}>
+            GENERATE EXAMPLE
+          </button>
         </div>
         {answer && (
-          <p className={answer === "no" ? "correct" : "wrong"}>
-            {answer === "no"
-              ? "Correct. 60 is a child of 50, and 60 > 50, so the Max-Heap property is broken."
-              : "Not quite. A Max-Heap parent must be greater than or equal to its children."}
+          <p className={feedbackIsCorrect ? "correct" : "wrong"}>
+            {feedbackIsCorrect ? "Correct. " : "Not quite. "}
+            {example.explanation}
           </p>
         )}
       </div>
@@ -299,7 +609,13 @@ function HeapArraySection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">04 / ARRAY IMPLEMENTATION</span>
-      <h2>A heap tree can be stored in an array.</h2>
+      <div className="heap-section-heading">
+        <h2>A heap tree can be stored in an array.</h2>
+        <InfoPopover title="Why use an array?">
+          Because a complete tree has no gaps, each node's parent and children
+          can be found with simple index math instead of storing pointers.
+        </InfoPopover>
+      </div>
       <p>
         Following the handout's 1-based indexing:
         root = array[1], left child = array[k * 2],
@@ -349,7 +665,13 @@ function HeapPlaygroundSection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">05 / INTERACTIVE HEAP EXPLORER</span>
-      <h2>Change the heap and watch the structure update.</h2>
+      <div className="heap-section-heading">
+        <h2>Change the heap and watch the structure update.</h2>
+        <InfoPopover title="Why does the tree keep changing?">
+          Every operation first keeps the shape complete, then swaps values
+          until the heap-order property becomes true again.
+        </InfoPopover>
+      </div>
 
       <div className="heap-playground-controls">
         <HeapTypeToggle type={type} onChange={changeType} />
@@ -404,7 +726,14 @@ function HeapifySection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">06 / HEAPIFY VISUALIZATIONS</span>
-      <h2>Heapify restores the heap-order property.</h2>
+      <div className="heap-section-heading">
+        <h2>Heapify restores the heap-order property.</h2>
+        <InfoPopover title="Why heapify?">
+          Insert and extract can temporarily put a value in the wrong place.
+          Heapify moves that value upward or downward until every parent-child
+          relationship follows the rule again.
+        </InfoPopover>
+      </div>
       <div className="heap-demo-grid">
         <HeapifyDemo mode="insert" />
         <HeapifyDemo mode="extract" />
@@ -459,7 +788,13 @@ function OperationCards() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">07 / HEAP OPERATIONS</span>
-      <h2>Every operation protects shape first, then heap order.</h2>
+      <div className="heap-section-heading">
+        <h2>Every operation protects shape first, then heap order.</h2>
+        <InfoPopover title="Why this order?">
+          Shape decides where nodes are allowed to live. Heap order decides
+          which values must move after that position is chosen.
+        </InfoPopover>
+      </div>
       <div className="heap-card-grid">
         {operationCards.map((card) => (
           <article className="heap-info-card" key={card.title}>
@@ -492,7 +827,13 @@ function PriorityQueueSection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">08 / PRIORITY QUEUES</span>
-      <h2>A priority queue processes priority, not insertion order.</h2>
+      <div className="heap-section-heading">
+        <h2>A priority queue processes priority, not insertion order.</h2>
+        <InfoPopover title="Why not first-in, first-out?">
+          Some systems care about urgency more than arrival time. A heap lets
+          the next highest-priority item be found quickly.
+        </InfoPopover>
+      </div>
       <div className="heap-two-column">
         <div className="heap-explanation-card">
           <span>PRINTER QUEUE</span>
@@ -539,7 +880,13 @@ function JavaPriorityQueueSection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">09 / JAVA PRIORITYQUEUE</span>
-      <h2>Java's PriorityQueue returns values by priority order.</h2>
+      <div className="heap-section-heading">
+        <h2>Java's PriorityQueue returns values by priority order.</h2>
+        <InfoPopover title="Why does poll change the order?">
+          Java's PriorityQueue stores values by priority internally, so polling
+          returns the smallest value by default, not the first inserted value.
+        </InfoPopover>
+      </div>
       <div className="heap-code-grid">
         <pre>{`PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 
@@ -590,7 +937,13 @@ function HeapPracticeSection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">10 / PREDICT THE NEXT STEP</span>
-      <h2>Try the insert logic yourself.</h2>
+      <div className="heap-section-heading">
+        <h2>Try the insert logic yourself.</h2>
+        <InfoPopover title="Why predict steps?">
+          Predicting forces you to separate the two rules: fill the next open
+          spot first, then compare with parents until the heap is valid.
+        </InfoPopover>
+      </div>
       <HeapTree heap={[50, 30, 20, 15, 10]} activeIndices={step === 0 ? [] : [2]} />
       <div className="heap-check-card">
         <span>INSERT 40</span>
@@ -641,7 +994,13 @@ function HeapValidationSection() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">11 / HEAP VALIDATION</span>
-      <h2>Decide what kind of heap you are seeing.</h2>
+      <div className="heap-section-heading">
+        <h2>Decide what kind of heap you are seeing.</h2>
+        <InfoPopover title="Why validate parent-child pairs?">
+          A heap is valid only if every parent follows the rule with each child.
+          One bad relationship is enough to break the heap.
+        </InfoPopover>
+      </div>
       <div className="heap-inline-actions">
         {validationExamples.map((example) => (
           <button type="button" key={example.label} onClick={() => {
@@ -676,7 +1035,13 @@ function ArrayIndexExercise() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">12 / ARRAY INDEX EXERCISE</span>
-      <h2>Use the index formulas.</h2>
+      <div className="heap-section-heading">
+        <h2>Use the index formulas.</h2>
+        <InfoPopover title="Why do formulas work?">
+          Complete trees fill predictably from left to right, so each level maps
+          neatly into array positions.
+        </InfoPopover>
+      </div>
       <div className="heap-two-column">
         <HeapTree heap={heap} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />
         <div>
@@ -700,7 +1065,13 @@ function HeapApplications() {
   return (
     <section className="lesson-section heap-section">
       <span className="section-label">13 / REAL-WORLD APPLICATIONS</span>
-      <h2>Heaps are useful when priority matters.</h2>
+      <div className="heap-section-heading">
+        <h2>Heaps are useful when priority matters.</h2>
+        <InfoPopover title="Why heaps in real systems?">
+          They keep the next important item easy to retrieve without fully
+          sorting every item after each update.
+        </InfoPopover>
+      </div>
       <div className="heap-card-grid">
         <article className="heap-info-card">
           <span>MAX-HEAP</span>

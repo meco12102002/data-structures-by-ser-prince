@@ -12,6 +12,187 @@
   max-width: 1000px;
 }
 
+.heap-view-switcher {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(8, 10, 9, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.heap-view-switcher > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.heap-view-switcher span {
+  color: #555;
+  font-family: monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.heap-view-switcher strong {
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+
+.heap-slide-shell {
+  min-height: 70vh;
+}
+
+.heap-slide-shell .lesson-section {
+  max-width: 1000px;
+  min-height: 62vh;
+  margin-top: 0;
+  padding: 2rem 0 4rem;
+  border-top: none;
+}
+
+.heap-slide-topbar {
+  display: grid;
+  grid-template-columns: auto minmax(220px, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.heap-slide-topbar button,
+.heap-slide-topbar select {
+  min-height: 42px;
+  border: 1px solid #303630;
+  background: #090c0a;
+  color: #d8ddd8;
+  font-family: monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.heap-slide-topbar button {
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.heap-slide-topbar button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.heap-slide-topbar button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.heap-slide-topbar select {
+  padding: 0 0.75rem;
+}
+
+.heap-slide-progress {
+  height: 3px;
+  margin-bottom: 1.5rem;
+  background: #202420;
+}
+
+.heap-slide-progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.heap-section-heading {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.heap-section-heading h2 {
+  margin-right: auto;
+}
+
+.info-popover {
+  position: relative;
+  z-index: 4;
+  flex-shrink: 0;
+  margin-top: 1.4rem;
+}
+
+.info-popover-trigger {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: rgba(184, 255, 70, 0.06);
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.info-popover-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.info-popover-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(320px, calc(100vw - 48px));
+  padding: 1rem;
+  border: 1px solid var(--border);
+  background: #101410;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.info-popover-panel strong {
+  display: block;
+  padding-right: 2rem;
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.info-popover-panel p {
+  margin: 0.65rem 0 0;
+  color: #a4aaa5;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.info-popover-close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #303630;
+  background: transparent;
+  color: #8d938e;
+  cursor: pointer;
+}
+
+.info-popover-close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 .heap-two-column,
 .heap-demo-grid,
 .heap-code-grid {
@@ -60,6 +241,11 @@
   stroke-width: 1.1;
 }
 
+.heap-tree-lines line.missing {
+  stroke: #f0a36b;
+  stroke-dasharray: 3 3;
+}
+
 .heap-node {
   position: absolute;
   width: 54px;
@@ -102,6 +288,18 @@
   border-color: var(--accent);
   color: var(--accent);
   transform: translate(-50%, -50%) scale(1.06);
+}
+
+.heap-node.missing-slot {
+  border-style: dashed;
+  border-color: #f0a36b;
+  background: rgba(240, 163, 107, 0.05);
+  color: #f0a36b;
+}
+
+.heap-node.missing-slot small {
+  background: #2a211b;
+  color: #f0a36b;
 }
 
 .heap-node.active small,
@@ -363,5 +561,27 @@
   .heap-step-controls {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .heap-view-switcher {
+    position: static;
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .heap-slide-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .heap-section-heading {
+    align-items: flex-start;
+  }
+
+  .info-popover {
+    margin-top: 1rem;
+  }
+
+  .info-popover-panel {
+    right: -4px;
   }
 }
