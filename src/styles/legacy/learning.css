@@ -1,0 +1,170 @@
+/* ================================
+   LEARNING PAGE
+================================ */
+
+.learning-page {
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  padding-bottom: 120px;
+}
+
+.learning-hero {
+  max-width: 720px;
+  padding: 100px 0 80px;
+}
+
+.section-label {
+  display: block;
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.learning-hero h1 {
+  margin: 25px 0;
+  font-size: clamp(58px, 7vw, 90px);
+  line-height: 0.92;
+  letter-spacing: -0.07em;
+}
+
+.learning-hero h1 span {
+  color: var(--accent);
+}
+
+.learning-hero p {
+  max-width: 580px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.lesson-list-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  color: #555;
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.lessons {
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-card {
+  display: grid;
+  grid-template-columns: 80px 1fr 50px;
+  gap: 30px;
+  align-items: center;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--border);
+  transition:
+    padding 0.25s ease,
+    background 0.25s ease;
+}
+
+.lesson-card:hover {
+  padding-left: 15px;
+  padding-right: 15px;
+  background: rgba(184, 255, 70, 0.025);
+}
+
+.lesson-card-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lesson-card-disabled:hover {
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+}
+
+.lesson-number {
+  color: #3f443f;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.lesson-content {
+  min-width: 0;
+}
+
+.lesson-topic {
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+}
+
+.lesson-content h2 {
+  margin: 8px 0;
+  color: #eee;
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.lesson-content p {
+  max-width: 650px;
+  margin: 0;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.lesson-arrow {
+  color: #555;
+  font-size: 20px;
+  text-align: right;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.lesson-card:hover .lesson-arrow {
+  color: var(--accent);
+  transform: translateX(5px);
+}
+
+@media (max-width: 600px) {
+  .learning-page {
+    width: calc(100% - 28px);
+  }
+
+  .learning-hero {
+    padding: 65px 0 55px;
+  }
+
+  .learning-hero h1 {
+    font-size: 58px;
+  }
+
+  .lesson-card {
+    grid-template-columns: 40px 1fr 25px;
+    gap: 15px;
+    padding: 25px 0;
+  }
+
+  .lesson-card:hover {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .lesson-content h2 {
+    font-size: 19px;
+  }
+
+  .lesson-content p {
+    font-size: 11px;
+  }
+}
+
+/* ================================

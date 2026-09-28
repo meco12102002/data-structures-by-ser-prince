@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 
 import SEO from "../components/SEO";
-import BinaryTree from "../components/visualizations/BinaryTree";
-import BinarySearchTreeSection from "../components/learning/BinarySearchTreeSection";
 import AVLSection from "../components/learning/AVLSection";
+import GeneratedTraversalPractice from "../components/activities/GeneratedTraversalPractice";
+import BinarySearchTreeSection from "../components/learning/BinarySearchTreeSection";
+import LessonSummary from "../components/learning/LessonSummary";
 import TraversalSection from "../components/learning/TraversalSection";
+import BinaryTree from "../components/visualizations/BinaryTree";
+import {
+  binaryTreeSummaryItems,
+  binaryTreeTraversals,
+} from "../data/binaryTreeLesson";
 
 function BinaryTreeLesson() {
   return (
     <>
-      {/* =================================
-          SEO
-      ================================= */}
-
       <SEO
         title="Binary Trees Explained: Structure, BST Rules, AVL Trees & Traversal"
         description="Learn binary trees through interactive visualizations. Understand binary tree structure, Binary Search Tree rules, AVL Trees, balance factors, rotations, and tree traversal algorithms."
@@ -20,33 +22,19 @@ function BinaryTreeLesson() {
       />
 
       <main className="binary-tree-lesson">
-
-        {/* =================================
-            LESSON NAVIGATION
-        ================================= */}
-
         <div className="lesson-navigation">
-
           <Link
             to="/learn"
             className="lesson-back"
           >
             <span aria-hidden="true">
-              ←
+              {"<-"}
             </span>
-
             BACK TO LESSONS
           </Link>
-
         </div>
 
-
-        {/* =================================
-            LESSON INTRODUCTION
-        ================================= */}
-
         <header className="lesson-hero">
-
           <span className="section-label">
             LESSON 01 / BINARY TREES
           </span>
@@ -64,19 +52,12 @@ function BinaryTreeLesson() {
             and discover how tree traversal algorithms
             visit each node.
           </p>
-
         </header>
-
-
-        {/* =================================
-            01 — WHAT IS A BINARY TREE?
-        ================================= */}
 
         <section
           className="lesson-section"
           aria-labelledby="what-is-a-binary-tree"
         >
-
           <span className="section-label">
             01 / BINARY TREE BASICS
           </span>
@@ -99,33 +80,15 @@ function BinaryTreeLesson() {
           </p>
 
           <BinaryTree />
-
         </section>
 
-
-        {/* =================================
-            02 — BINARY SEARCH TREES
-        ================================= */}
-
         <BinarySearchTreeSection />
-
-
-        {/* =================================
-            03 — AVL TREES
-        ================================= */}
-
         <AVLSection />
-
-
-        {/* =================================
-            04 — TREE TRAVERSAL INTRODUCTION
-        ================================= */}
 
         <section
           className="lesson-section traversal-introduction"
           aria-labelledby="tree-traversal"
         >
-
           <span className="section-label">
             04 / TREE TRAVERSAL
           </span>
@@ -148,7 +111,6 @@ function BinaryTreeLesson() {
           </p>
 
           <div className="traversal-definition">
-
             <span className="traversal-definition-label">
               THE IDEA
             </span>
@@ -158,200 +120,31 @@ function BinaryTreeLesson() {
               the resulting sequence. You need to understand
               how the algorithm moves through the tree.
             </p>
-
           </div>
-
         </section>
 
+        {binaryTreeTraversals.map((traversal) => (
+          <TraversalSection
+            key={traversal.type}
+            {...traversal}
+          />
+        ))}
 
-        {/* =================================
-            05 — PREORDER TRAVERSAL
-        ================================= */}
+        <GeneratedTraversalPractice />
 
-        <TraversalSection
-          number="05"
-          type="PREORDER"
-          rule="ROOT → LEFT → RIGHT"
-          title="Preorder Traversal: Visit the Root First"
-          description="In preorder traversal, we visit the current node first, then traverse its left subtree, followed by its right subtree."
-        />
-
-
-        {/* =================================
-            06 — INORDER TRAVERSAL
-        ================================= */}
-
-        <TraversalSection
-          number="06"
-          type="INORDER"
-          rule="LEFT → ROOT → RIGHT"
-          title="Inorder Traversal: Visit the Root Between Subtrees"
-          description="In inorder traversal, we traverse the left subtree first, visit the current node, and then traverse the right subtree."
-        />
-
-
-        {/* =================================
-            07 — POSTORDER TRAVERSAL
-        ================================= */}
-
-        <TraversalSection
-          number="07"
-          type="POSTORDER"
-          rule="LEFT → RIGHT → ROOT"
-          title="Postorder Traversal: Visit the Root Last"
-          description="In postorder traversal, we traverse the left subtree first, then the right subtree, and visit the current node last."
-        />
-
-
-        {/* =================================
-            08 — LEVEL ORDER TRAVERSAL
-        ================================= */}
-
-        <TraversalSection
-          number="08"
-          type="LEVEL ORDER"
-          rule="TOP → BOTTOM, LEFT → RIGHT"
-          title="Level Order Traversal: Visit Each Level"
-          description="In level order traversal, we visit nodes one level at a time, starting at the root and moving from left to right."
-        />
-
-
-        {/* =================================
-            LESSON SUMMARY
-        ================================= */}
-
-        <section
-          className="lesson-section binary-tree-summary"
-          aria-labelledby="binary-tree-summary"
-        >
-
-          <span className="section-label">
-            LESSON SUMMARY
-          </span>
-
-          <h2 id="binary-tree-summary">
-            What You Should Understand
-          </h2>
-
-          <div className="lesson-summary-grid">
-
-            <article className="lesson-summary-item">
-
-              <span>
-                01
-              </span>
-
-              <h3>
-                Binary Tree Structure
-              </h3>
-
-              <p>
-                A binary tree organizes data through
-                nodes and relationships, with each node
-                having at most two children.
-              </p>
-
-            </article>
-
-
-            <article className="lesson-summary-item">
-
-              <span>
-                02
-              </span>
-
-              <h3>
-                Binary Search Tree Rules
-              </h3>
-
-              <p>
-                A Binary Search Tree organizes values
-                so smaller values go to the left and
-                larger values go to the right.
-              </p>
-
-            </article>
-
-
-            <article className="lesson-summary-item">
-
-              <span>
-                03
-              </span>
-
-              <h3>
-                AVL Trees
-              </h3>
-
-              <p>
-                An AVL tree is a self-balancing BST that
-                uses a balance factor to maintain height
-                balance.
-              </p>
-
-            </article>
-
-
-            <article className="lesson-summary-item">
-
-              <span>
-                04
-              </span>
-
-              <h3>
-                Tree Traversal
-              </h3>
-
-              <p>
-                Traversal defines the order in which
-                nodes are visited when processing a tree.
-              </p>
-
-            </article>
-
-
-            <article className="lesson-summary-item">
-
-              <span>
-                05
-              </span>
-
-              <h3>
-                Traversal Algorithms
-              </h3>
-
-              <p>
-                Preorder, inorder, postorder, and level
-                order traversal each follow a different
-                strategy for visiting nodes.
-              </p>
-
-            </article>
-
-          </div>
-
-        </section>
-
-
-        {/* =================================
-            BACK TO LESSONS
-        ================================= */}
+        <LessonSummary items={binaryTreeSummaryItems} />
 
         <div className="lesson-footer-navigation">
-
           <Link
             to="/learn"
             className="lesson-back"
           >
             <span aria-hidden="true">
-              ←
+              {"<-"}
             </span>
-
             BACK TO LESSONS
           </Link>
-
         </div>
-
       </main>
     </>
   );

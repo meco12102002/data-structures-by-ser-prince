@@ -1,0 +1,53 @@
+@theme {
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  --color-background: #080a09;
+  --color-surface: #101310;
+  --color-panel: #10141a;
+  --color-border: #242824;
+  --color-muted: #777c77;
+  --color-accent: #b8ff46;
+  --color-foreground: #eeeeee;
+}
+
+@layer base {
+  :root {
+    font-family: var(--font-sans);
+    color: var(--color-foreground);
+    background: var(--color-background);
+
+    --background: var(--color-background);
+    --surface: var(--color-surface);
+    --border: var(--color-border);
+    --text: var(--color-foreground);
+    --muted: var(--color-muted);
+    --accent: var(--color-accent);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

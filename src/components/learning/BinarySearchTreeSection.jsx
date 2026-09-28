@@ -65,19 +65,32 @@ const examples = [
   },
 ];
 
-const insertionValues = [
-  10,
-  5,
-  15,
-  2,
-  7,
-  12,
-  20,
+const insertionProblemSets = [
+  [10, 5, 15, 2, 7, 12, 20],
+  [30, 42, 18, 50, 36, 9, 24],
+  [16, 7, 23, 3, 12, 10, 14],
+  [40, 25, 60, 52, 48, 70],
+  [21, 33, 10, 28, 37, 6, 14],
 ];
 
-const initialTree = [
+function createInitialTree(values) {
+  return [
+    {
+      value: values[0],
+      x: 50,
+      y: 16,
+      parent: null,
+      side: null,
+      level: 0,
+    },
+  ];
+}
+
+const defaultInsertionValues = insertionProblemSets[0];
+
+const defaultTree = [
   {
-    value: 10,
+    value: defaultInsertionValues[0],
     x: 50,
     y: 16,
     parent: null,
@@ -156,8 +169,13 @@ function findComparisonNode(tree, value) {
 function BinarySearchTreeSection() {
   const [activeRule, setActiveRule] = useState(0);
   const [activeExample, setActiveExample] = useState(0);
+  const [insertionProblemIndex, setInsertionProblemIndex] =
+    useState(0);
 
-  const [tree, setTree] = useState(initialTree);
+  const insertionValues =
+    insertionProblemSets[insertionProblemIndex];
+
+  const [tree, setTree] = useState(defaultTree);
   const [currentValueIndex, setCurrentValueIndex] =
     useState(1);
 
@@ -180,7 +198,23 @@ function BinarySearchTreeSection() {
       : null;
 
   function resetInsertionActivity() {
-    setTree(initialTree);
+    setTree(createInitialTree(insertionValues));
+    setCurrentValueIndex(1);
+    setFeedback(null);
+    setAttempts(0);
+    setCompleted(false);
+  }
+
+  function generateInsertionActivity() {
+    const nextProblemIndex =
+      (insertionProblemIndex + 1) %
+      insertionProblemSets.length;
+
+    const nextValues =
+      insertionProblemSets[nextProblemIndex];
+
+    setInsertionProblemIndex(nextProblemIndex);
+    setTree(createInitialTree(nextValues));
     setCurrentValueIndex(1);
     setFeedback(null);
     setAttempts(0);
@@ -1011,15 +1045,29 @@ function BinarySearchTreeSection() {
 
             {!completed && (
 
-              <button
-                type="button"
-                className="bst-reset-button bst-reset-inline"
-                onClick={
-                  resetInsertionActivity
-                }
-              >
-                RESET ACTIVITY
-              </button>
+              <div className="bst-activity-actions">
+
+                <button
+                  type="button"
+                  className="bst-reset-button"
+                  onClick={
+                    resetInsertionActivity
+                  }
+                >
+                  RESET ACTIVITY
+                </button>
+
+                <button
+                  type="button"
+                  className="bst-reset-button"
+                  onClick={
+                    generateInsertionActivity
+                  }
+                >
+                  GENERATE TREE
+                </button>
+
+              </div>
 
             )}
 
