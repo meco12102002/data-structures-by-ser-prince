@@ -167,7 +167,7 @@ export function HeapIndexDetails({ heap, selectedIndex }) {
   return (
     <div className="heap-index-details">
       <span>Selected value {heap[selectedIndex]}</span>
-      <p>Handout index k = {displayIndex}</p>
+      <p>1-based index k = {displayIndex}</p>
       {parent !== null && <p>Parent: k / 2 = {parent + 1}</p>}
       {left < heap.length && <p>Left child: k * 2 = {left + 1}</p>}
       {right < heap.length && <p>Right child: k * 2 + 1 = {right + 1}</p>}
