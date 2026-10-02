@@ -11,6 +11,21 @@ function Learning() {
         title="Learn Data Structures | Interactive DSA Lessons"
         description="Learn data structures through interactive visualizations, guided explanations, and hands-on practice with arrays, linked lists, stacks, queues, trees, graphs, searching, and sorting."
         path="/learn"
+        keywords={[
+          "data structures lessons",
+          "DSA learning path",
+          "interactive algorithms",
+          "tree lessons",
+          "heap lessons",
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Interactive Data Structures Lessons",
+          url: "https://data-structures-by-ser-prince.vercel.app/learn",
+          description:
+            "A learning path of interactive data structures lessons and practice activities.",
+        }}
       />
 
       <main className="learning-page">

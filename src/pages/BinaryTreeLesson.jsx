@@ -61,6 +61,32 @@ function BinaryTreeLesson() {
         title="Binary Trees Explained: Structure, BST Rules, AVL Trees & Traversal"
         description="Learn binary trees through interactive visualizations. Understand binary tree structure, Binary Search Tree rules, AVL Trees, balance factors, rotations, and tree traversal algorithms."
         path="/learn/binary-trees"
+        type="article"
+        keywords={[
+          "binary trees",
+          "binary search trees",
+          "AVL trees",
+          "tree traversal",
+          "preorder traversal",
+          "inorder traversal",
+          "postorder traversal",
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          name: "Binary Trees: Structure and Traversal",
+          url: "https://data-structures-by-ser-prince.vercel.app/learn/binary-trees",
+          description:
+            "An interactive lesson about binary trees, binary search trees, AVL trees, rotations, and traversal algorithms.",
+          learningResourceType: "lesson",
+          educationalLevel: "Beginner",
+          teaches: [
+            "Binary tree structure",
+            "Binary Search Tree rules",
+            "AVL rotations",
+            "Tree traversal algorithms",
+          ],
+        }}
       />
 
       <main className="binary-tree-lesson">

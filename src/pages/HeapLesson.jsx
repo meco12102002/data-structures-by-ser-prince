@@ -276,6 +276,33 @@ function HeapLesson() {
         title="Heaps and Priority Queues | Interactive DSA Lesson"
         description="Learn heaps and priority queues with visual heap operations, array mapping, heapify animations, Java PriorityQueue examples, and interactive practice."
         path="/learn/heaps-and-priority-queues"
+        type="article"
+        keywords={[
+          "heaps",
+          "priority queues",
+          "heapify",
+          "max heap",
+          "min heap",
+          "Java PriorityQueue",
+          "array heap representation",
+        ]}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          name: "Heaps and Priority Queues",
+          url: "https://data-structures-by-ser-prince.vercel.app/learn/heaps-and-priority-queues",
+          description:
+            "An interactive lesson about heaps, priority queues, heapify, array representation, and Java PriorityQueue behavior.",
+          learningResourceType: "lesson",
+          educationalLevel: "Beginner",
+          teaches: [
+            "Heap shape property",
+            "Max-Heap and Min-Heap rules",
+            "Heapify operations",
+            "Priority queue behavior",
+            "Java PriorityQueue",
+          ],
+        }}
       />
 
       <main className="heap-lesson">
