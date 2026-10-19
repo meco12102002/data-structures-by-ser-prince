@@ -2,7 +2,8 @@
    BINARY TREE LESSON
 ================================ */
 
-.binary-tree-lesson {
+.binary-tree-lesson,
+.lesson-page {
   width: min(1100px, calc(100% - 48px));
   margin: 0 auto;
   padding-bottom: 120px;
@@ -169,7 +170,8 @@
 }
 
 @media (max-width: 600px) {
-  .binary-tree-lesson {
+  .binary-tree-lesson,
+  .lesson-page {
     width: calc(100% - 28px);
   }
 

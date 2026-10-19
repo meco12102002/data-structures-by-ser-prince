@@ -207,7 +207,8 @@
 .heap-explanation-card,
 .heap-check-card,
 .heap-info-card,
-.heap-demo-card {
+.heap-demo-card,
+.lesson-panel {
   border: 1px solid var(--border);
   background: #0c0f0d;
 }
@@ -311,7 +312,8 @@
 .heap-explanation-card,
 .heap-check-card,
 .heap-info-card,
-.heap-demo-card {
+.heap-demo-card,
+.lesson-panel {
   padding: 1.25rem;
 }
 
@@ -346,7 +348,8 @@
 
 .heap-toggle,
 .heap-inline-actions,
-.heap-step-controls {
+.heap-step-controls,
+.lesson-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -357,7 +360,9 @@
 .heap-inline-actions button,
 .heap-step-controls button,
 .heap-playground-controls button,
-.heap-check-card button {
+.heap-check-card button,
+.lesson-controls button,
+.lesson-panel button {
   min-height: 40px;
   padding: 0 0.9rem;
   border: 1px solid #303630;
@@ -374,7 +379,10 @@
 .heap-toggle button:hover,
 .heap-inline-actions button:hover,
 .heap-step-controls button:hover:not(:disabled),
-.heap-playground-controls button:hover {
+.heap-playground-controls button:hover,
+.lesson-controls button:hover:not(:disabled),
+.lesson-controls button.active,
+.lesson-panel button.active {
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -384,7 +392,9 @@
   cursor: not-allowed;
 }
 
-.heap-step-controls button:disabled {
+.heap-step-controls button:disabled,
+.lesson-controls button:disabled,
+.lesson-panel button:disabled {
   opacity: 0.35;
   cursor: not-allowed;
 }
@@ -427,7 +437,8 @@
   color: #f0a36b;
 }
 
-.heap-callout {
+.heap-callout,
+.lesson-callout {
   margin-top: 1rem;
   padding: 1rem;
   border-left: 2px solid var(--accent);
@@ -646,7 +657,8 @@
 }
 
 .heap-playground-controls label,
-.heap-check-card label {
+.heap-check-card label,
+.lesson-field > label {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -657,7 +669,10 @@
 }
 
 .heap-playground-controls input,
-.heap-check-card input {
+.heap-check-card input,
+.lesson-field input,
+.lesson-field select,
+.lesson-controls select {
   min-height: 40px;
   width: 110px;
   border: 1px solid #303630;

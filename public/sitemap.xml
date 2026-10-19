@@ -16,4 +16,8 @@
     <loc>https://data-structures-by-ser-prince.vercel.app/learn/heaps-and-priority-queues</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://data-structures-by-ser-prince.vercel.app/learn/hashing-sets-and-maps</loc>
+    <priority>0.8</priority>
+  </url>
 </urlset>

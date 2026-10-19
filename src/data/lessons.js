@@ -89,6 +89,15 @@ export const lessons = [
     topic: "ALGORITHMS",
     isAvailable: false,
   },
+  {
+    number: "11",
+    slug: "hashing-sets-and-maps",
+    title: "Hashing, Sets, and Maps",
+    description:
+      "Calculate buckets, handle collisions, and explore Sets, Maps, and Java through interactive labs.",
+    topic: "HASHING & COLLECTIONS",
+    isAvailable: true,
+  },
 ];
 
 export function getLessonPath(lesson) {
