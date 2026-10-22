@@ -18,7 +18,10 @@ export function Feedback({ children, error = false }) {
       role="status"
       aria-live="polite"
     >
-      {children}
+      <span className="hash-feedback-label">
+        {error ? "Check this" : "What happened"}
+      </span>
+      <div>{children}</div>
     </div>
   );
 }
@@ -30,24 +33,28 @@ export function Playback({ player }) {
       role="group"
       aria-label="Animation playback"
     >
-      <button onClick={player.previous} disabled={player.step === 0}>
-        Previous step
-      </button>
-      <button
-        className="hash-primary active"
-        onClick={player.playing ? player.pause : player.play}
-        disabled={player.last === 0}
-      >
-        {player.playing
-          ? "Pause"
-          : player.step === player.last
-            ? "Replay"
-            : "Play"}
-      </button>
-      <button onClick={player.next} disabled={player.step === player.last}>
-        Next step
-      </button>
-      <button onClick={player.restart}>Restart</button>
+      <div className="hash-playback-main">
+        <button onClick={player.previous} disabled={player.step === 0}>
+          Previous step
+        </button>
+        <button
+          className="hash-primary active"
+          onClick={player.playing ? player.pause : player.play}
+          disabled={player.last === 0}
+        >
+          {player.playing
+            ? "Pause"
+            : player.step === player.last
+              ? "Replay"
+              : "Play"}
+        </button>
+        <button onClick={player.next} disabled={player.step === player.last}>
+          Next step
+        </button>
+        <button className="hash-secondary" onClick={player.restart}>
+          Restart
+        </button>
+      </div>
       <label>
         Speed{" "}
         <select
@@ -77,7 +84,7 @@ export function BucketTable({
 }) {
   return (
     <div
-      className="hash-buckets"
+      className={`hash-buckets ${open || table.length > 12 ? "hash-buckets-grid" : "hash-buckets-rows"} ${open ? "hash-buckets-open" : "hash-buckets-chained"}`}
       role="group"
       aria-label={open ? "Open addressing table" : "Chained hash table"}
     >

@@ -20,19 +20,56 @@ import {
 function AllocationNumbers({ table }) {
   const stats = allocationStats(table);
   return (
-    <div className="hash-stats">
+    <div className="hash-stats hash-allocation-stats">
       {[
         ["Stored entries", stats.entries],
         ["Buckets (m)", stats.buckets],
+        ["Load factor", stats.load.toFixed(3)],
         ["Colliding entries", stats.collisions],
         ["Unused buckets", stats.unused],
-        ["Load factor", stats.load.toFixed(3)],
       ].map(([label, value]) => (
         <div key={label}>
           <span>{label}</span>
           <strong>{value}</strong>
         </div>
       ))}
+    </div>
+  );
+}
+
+function CapacityAllocation({ table }) {
+  if (table.length <= 23) return <BucketTable table={table} />;
+  return (
+    <div className="hash-capacity-view">
+      <p className="hash-small">
+        Capacity overview · each numbered cell is one bucket. Filled cells
+        contain entries; outlined cells are empty.
+      </p>
+      <div
+        className="hash-capacity-map"
+        role="group"
+        aria-label="Bucket capacity overview"
+      >
+        {table.map((bucket, index) => (
+          <span
+            role="img"
+            key={index}
+            className={bucket.length ? "is-occupied" : ""}
+            aria-label={`Bucket ${index}: ${bucket.length ? `${bucket.length} stored ${bucket.length === 1 ? "entry" : "entries"}` : "empty"}`}
+          >
+            {index}
+            <small>
+              {bucket.length
+                ? `${bucket.length} ${bucket.length === 1 ? "entry" : "entries"}`
+                : "empty"}
+            </small>
+          </span>
+        ))}
+      </div>
+      <details className="hash-definitions" key={table.length}>
+        <summary>Inspect all {table.length} buckets and their entries</summary>
+        <BucketTable table={table} />
+      </details>
     </div>
   );
 }
@@ -65,7 +102,7 @@ export function TableSizeSimulator() {
         table can waste space. Change m and every key’s destination is
         recalculated immediately.
       </p>
-      <div className="hash-controls lesson-controls">
+      <div className="hash-controls lesson-controls hash-setup-controls">
         <Field label="Allocation bucket count">
           <select
             value={size}
@@ -83,8 +120,11 @@ export function TableSizeSimulator() {
             maxLength={180}
           />
         </Field>
-        <button onClick={apply}>Allocate keys</button>
+        <button className="hash-primary active" onClick={apply}>
+          Allocate keys
+        </button>
         <button
+          className="hash-secondary"
           onClick={() => {
             setSize(5);
             setKeys([12, 27, 32]);
@@ -95,10 +135,20 @@ export function TableSizeSimulator() {
           Reset allocation
         </button>
       </div>
-      <div className="hash-controls lesson-controls">
-        <button onClick={() => setSize(5)}>Small table · 5</button>
-        <button onClick={() => setSize(11)}>Larger table · 11</button>
-        <button onClick={() => setSize(47)}>Lots of spare capacity · 47</button>
+      <div
+        className="hash-controls lesson-controls hash-scenarios"
+        role="group"
+        aria-label="Allocation scenarios"
+      >
+        <button aria-pressed={size === 5} onClick={() => setSize(5)}>
+          Small table · 5
+        </button>
+        <button aria-pressed={size === 11} onClick={() => setSize(11)}>
+          Larger table · 11
+        </button>
+        <button aria-pressed={size === 47} onClick={() => setSize(47)}>
+          Lots of spare capacity · 47
+        </button>
       </div>
       <AllocationNumbers table={table} />
       <div
@@ -112,7 +162,7 @@ export function TableSizeSimulator() {
           </span>
         ))}
       </div>
-      <BucketTable table={table} />
+      <CapacityAllocation table={table} />
       <Feedback error={!!error}>
         {error ||
           `${keys.length} entries use ${stats.occupied} of ${size} buckets; ${stats.unused} buckets remain unused. ${stats.collisions ? "Different keys share indexes, producing collisions." : "These keys have different destinations."} More buckets consume more bucket-array space even when empty; this diagram counts positions, not exact bytes.`}
@@ -240,7 +290,9 @@ export function HashFunctionSelection() {
           >
             Hash the same key again
           </button>
-          <button onClick={() => setHistory([])}>Reset repeated calls</button>
+          <button className="hash-secondary" onClick={() => setHistory([])}>
+            Reset repeated calls
+          </button>
         </div>
         <div className="hash-summary-flow">
           {history.map((index, i) => (
@@ -374,10 +426,12 @@ export function JavaResizeIllustration() {
       </p>
       <div className="hash-controls lesson-controls">
         <button onClick={() => player.seek(12)}>Show 12 stored entries</button>
-        <button onClick={() => player.seek(13)}>
+        <button className="hash-primary active" onClick={() => player.seek(13)}>
           Insert the 13th distinct entry
         </button>
-        <button onClick={player.restart}>Reset Java illustration</button>
+        <button className="hash-secondary" onClick={player.restart}>
+          Reset Java illustration
+        </button>
       </div>
       <div className="hash-stats">
         {[

@@ -198,13 +198,13 @@ export default function HashingLesson() {
           }
           ref={content}
         >
-          <div className="lesson-slide-topbar">
+          <div className="lesson-slide-topbar hash-section-navigation">
             <button
               type="button"
               onClick={() => navigate(active - 1)}
               disabled={active === 0}
             >
-              PREVIOUS
+              Previous section
             </button>
             <select
               id="hash-section-picker"
@@ -223,7 +223,7 @@ export default function HashingLesson() {
               onClick={() => navigate(active + 1)}
               disabled={active === hashingSections.length - 1}
             >
-              NEXT
+              Next section
             </button>
           </div>
           <div
@@ -266,13 +266,13 @@ export default function HashingLesson() {
                   <h2 id={`hash-section-${index}`} tabIndex={-1}>
                     {section.title}
                   </h2>
-                  <p className="hash-small">
+                  <p className="hash-small hash-source-reference">
                     IT2503 · 05 Handout 1 ·{" "}
                     {handoutPagesBySection[index].length === 1 ? "p." : "pp."}{" "}
                     {handoutPagesBySection[index]}
                   </p>
                   <p>{section.problem}</p>
-                  <div className="hash-concept">
+                  <div className="hash-concept hash-section-intro">
                     {handoutConcepts[index] && (
                       <>
                         <span className="section-label">
@@ -292,14 +292,16 @@ export default function HashingLesson() {
                         </dl>
                       </>
                     )}
+                    <div className="hash-explanation">
+                      <span className="section-label">IN SIMPLE TERMS</span>
+                      <p>{section.explanation}</p>
+                    </div>
                     {section.clarification && (
                       <div className="lesson-callout hash-feedback">
                         <strong>Technical clarification</strong>
                         <p>{section.clarification}</p>
                       </div>
                     )}
-                    <span className="section-label">IN SIMPLE TERMS</span>
-                    <p>{section.explanation}</p>
                   </div>
                   <Lab
                     allVisited={visited.length === hashingSections.length}
@@ -350,7 +352,7 @@ export default function HashingLesson() {
               </section>
             );
           })}
-          <div className="lesson-slide-topbar">
+          <div className="lesson-slide-topbar hash-section-footer">
             <button
               type="button"
               disabled={active === 0}

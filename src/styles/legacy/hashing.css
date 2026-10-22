@@ -22,7 +22,39 @@
 .hash-lesson .lesson-view-switcher > div > span,
 .hash-lesson .lesson-hero p,
 .hash-lesson .lesson-section p {
-  color: #8d938e;
+  color: #a4aaa5;
+}
+.hash-lesson .lesson-section p {
+  line-height: 1.8;
+}
+.hash-lesson .lesson-section :is(button, input, select),
+.hash-lesson .lesson-view-toggle button,
+.hash-lesson .lesson-slide-topbar :is(button, select) {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.hash-lesson .lesson-section :is(input, select) {
+  padding: 0.65rem 0.75rem;
+}
+.hash-lesson button.hash-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #101410;
+  font-weight: 700;
+}
+.hash-lesson button.hash-primary:hover:not(:disabled) {
+  color: #101410;
+  background: #ccff80;
+}
+.hash-lesson button.hash-secondary {
+  border-color: transparent;
+  color: #a4aaa5;
+}
+.hash-lesson button.hash-secondary:hover:not(:disabled) {
+  border-color: #454d45;
+  color: var(--text);
 }
 .hash-lesson
   :is(button, input, select, a, summary, pre, [tabindex]):focus-visible {
@@ -44,12 +76,42 @@
 }
 .hash-lab {
   min-width: 0;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+.hash-lab > h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+.hash-lab > p {
+  margin-bottom: 1.5rem;
+}
+.hash-lab .hash-panel {
+  padding: 1rem 0;
+  border: 0;
+  background: transparent;
+}
+.hash-lab :is(.hash-grid-two, .hash-grid-three) > .hash-panel {
+  border-top: 1px solid var(--border);
 }
 .hash-controls {
   gap: 0.75rem;
   align-items: end;
   margin: 0 0 1.25rem;
+}
+.hash-setup-controls {
+  padding-block: 1.25rem;
+  border-block: 1px solid var(--border);
+}
+.hash-scenarios {
+  gap: 0.5rem;
+}
+.hash-scenarios button[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(184, 255, 70, 0.06);
 }
 .hash-field {
   display: flex;
@@ -60,7 +122,9 @@
   max-width: 320px;
 }
 .hash-field > label {
-  color: #8d938e;
+  color: #aeb5af;
+  font: 500 0.8rem/1.5 var(--font-sans);
+  letter-spacing: 0;
 }
 .hash-field > span {
   display: flex;
@@ -108,20 +172,38 @@
 }
 .hash-buckets {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 142px), 1fr));
-  gap: 0.5rem;
-  margin: 1rem 0;
+  gap: 0.4rem;
+  margin: 1.5rem 0;
 }
-.hash-panel .hash-buckets {
+.hash-buckets-rows {
   grid-template-columns: 1fr;
+}
+.hash-buckets-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 115px), 1fr));
 }
 .hash-lesson .hash-bucket {
   min-width: 0;
-  min-height: 72px;
-  padding: 1rem;
+  min-height: 66px;
+  padding: 0.75rem;
   text-align: left;
   border: 1px solid var(--border);
   background: #090c0a;
+}
+.hash-lesson .hash-buckets-rows > .hash-bucket {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 50px;
+  padding: 0.5rem 0.75rem;
+}
+.hash-buckets-rows .hash-bucket-index {
+  margin: 0;
+  line-height: 1.6;
+}
+.hash-buckets-rows .hash-entry {
+  padding: 0.35rem 0.5rem;
+  line-height: 1.4;
 }
 .hash-lesson .hash-bucket.is-active,
 .hash-pipeline .is-active {
@@ -200,13 +282,20 @@
   margin: 1.25rem 0 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
+  gap: 1rem;
+}
+.hash-playback-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 .hash-playback label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: #8d938e;
-  font: 0.7rem monospace;
+  font: 0.8rem var(--font-sans);
 }
 .hash-playback select {
   width: auto;
@@ -219,9 +308,19 @@
 }
 .hash-feedback {
   color: #a4aaa5;
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
   line-height: 1.7;
   overflow-wrap: anywhere;
+}
+.hash-feedback-label {
+  display: block;
+  color: #d8ddd8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+.hash-feedback.hash-error .hash-feedback-label {
+  color: var(--hash-error);
 }
 .hash-feedback.hash-error {
   border-color: var(--hash-error);
@@ -230,10 +329,11 @@
 .hash-pipeline {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 1.25rem;
   margin: 1.5rem 0;
 }
 .hash-pipeline > div {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -241,6 +341,14 @@
   padding: 1rem;
   border: 1px solid var(--border);
   background: #101410;
+}
+.hash-pipeline > div:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -1.1rem;
+  top: calc(50% - 0.6rem);
+  color: #8d938e;
+  font: 1rem/1.2 var(--font-sans);
 }
 .hash-pipeline span {
   color: #8d938e;
@@ -273,7 +381,7 @@
 .hash-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border: 1px solid var(--border);
+  border-block: 1px solid var(--border);
   margin: 1.25rem 0;
 }
 .hash-stats > div {
@@ -283,12 +391,57 @@
 .hash-stats span {
   display: block;
   color: #8d938e;
-  font: 0.68rem monospace;
-  margin-bottom: 0.75rem;
+  font: 0.8rem/1.5 var(--font-sans);
+  margin-bottom: 0.5rem;
 }
 .hash-stats strong {
-  font: 1.6rem monospace;
+  font: 1.4rem var(--font-mono);
   color: var(--accent);
+}
+.hash-allocation-stats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.hash-allocation-stats > div:nth-child(-n + 3) {
+  grid-column: span 2;
+  border-bottom: 1px solid var(--border);
+}
+.hash-allocation-stats > div:nth-child(n + 4) {
+  grid-column: span 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.65rem;
+  padding-block: 0.75rem;
+}
+.hash-allocation-stats > div:nth-child(n + 4) span {
+  margin: 0;
+}
+.hash-allocation-stats > div:nth-child(n + 4) strong {
+  color: #d8ddd8;
+  font-size: 1rem;
+}
+.hash-capacity-map {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(54px, 1fr));
+  gap: 0.35rem;
+  margin: 1rem 0;
+}
+.hash-capacity-map > span {
+  padding: 0.5rem 0.2rem;
+  border: 1px solid var(--border);
+  color: #a4aaa5;
+  font: 0.8rem var(--font-mono);
+  text-align: center;
+}
+.hash-capacity-map small {
+  display: block;
+  margin-top: 0.2rem;
+  font: 0.65rem var(--font-sans);
+}
+.hash-capacity-map .is-occupied {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(184, 255, 70, 0.08);
 }
 .hash-lesson .hash-stat {
   color: var(--accent);
@@ -405,6 +558,26 @@
 .hash-concept {
   margin-top: 2rem;
 }
+.hash-section-intro {
+  max-width: 720px;
+}
+.hash-section-intro dl {
+  margin: 1rem 0 1.75rem;
+}
+.hash-section-intro dt {
+  font-size: 0.9375rem;
+}
+.hash-explanation {
+  margin: 1.75rem 0;
+}
+.hash-lesson .hash-explanation p {
+  color: #d8ddd8;
+}
+.hash-lesson .hash-source-reference {
+  margin-top: -0.4rem;
+  margin-bottom: 1.5rem;
+  color: #8d938e;
+}
 .hash-source-definition {
   margin: 0.5rem 0 1.25rem;
   padding-left: 1rem;
@@ -423,10 +596,23 @@
 .hash-definitions {
   margin: 1.25rem 0;
 }
+.hash-definitions.lesson-panel {
+  padding: 1rem 0;
+  border: 0;
+  border-block: 1px solid var(--border);
+  background: transparent;
+}
 .hash-definitions summary {
   cursor: pointer;
+  color: #d8ddd8;
+  font: 500 0.9375rem/1.7 var(--font-sans);
+}
+.hash-definitions summary:hover {
   color: var(--accent);
-  font: 0.75rem/1.7 monospace;
+}
+.hash-definitions[open] > summary {
+  margin-bottom: 1rem;
+  color: var(--accent);
 }
 .hash-definitions dl {
   display: grid;
@@ -447,12 +633,16 @@
 .hash-question {
   min-width: 0;
   margin: 1.5rem 0;
+  padding: 1.25rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: transparent;
 }
 .hash-question legend {
   max-width: 100%;
   padding: 0 0.4rem;
   color: #d8ddd8;
-  font-size: 0.85rem;
+  font-size: 0.9375rem;
   line-height: 1.7;
 }
 .hash-answer-options button {
@@ -500,7 +690,7 @@
 }
 .hash-lesson .hash-small {
   color: #8d938e;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   line-height: 1.8;
 }
 .hash-transition {
@@ -514,10 +704,51 @@
   margin: 1.5rem 0;
 }
 .hash-summary-flow span {
-  padding: 0.5rem;
-  border: 1px solid var(--border);
+  padding: 0.35rem 0.5rem;
+  background: #101410;
   color: var(--accent);
-  font: 0.65rem monospace;
+  font: 0.8rem var(--font-mono);
+}
+.hash-activity-picker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 2rem 0 0;
+  border-bottom: 1px solid var(--border);
+}
+.hash-activity-picker button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  padding: 1rem 0.75rem;
+  color: #a4aaa5;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+.hash-activity-picker button strong {
+  color: #d8ddd8;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.hash-activity-picker button > span {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.hash-activity-picker .hash-activity-number {
+  font-family: var(--font-mono);
+}
+.hash-activity-picker button[aria-pressed="true"] {
+  border-bottom-color: var(--accent);
+  background: rgba(184, 255, 70, 0.05);
+}
+.hash-activity-picker button:is([aria-pressed="true"], :hover) strong {
+  color: var(--accent);
+}
+.hash-activity-picker ~ [data-design-activity] .hash-lab {
+  margin-top: 1.25rem;
 }
 .hash-reference-links {
   display: flex;
@@ -563,16 +794,11 @@
   .hash-operation-layout {
     grid-template-columns: 1fr;
   }
-  .hash-operation-layout .hash-buckets {
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 142px), 1fr));
-  }
 }
 @media (max-width: 600px) {
   .hash-grid-two {
     grid-template-columns: 1fr;
   }
-  .hash-pipeline,
-  .hash-record-pipeline,
   .hash-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -582,6 +808,68 @@
   }
   .hash-step {
     margin-left: 0;
+  }
+  .hash-lesson .hash-buckets-rows > .hash-bucket {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+  .hash-pipeline,
+  .hash-record-pipeline {
+    grid-template-columns: 1fr;
+  }
+  .hash-pipeline > div {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem;
+  }
+  .hash-pipeline > div:not(:last-child)::after {
+    content: "↓";
+    right: calc(50% - 0.4rem);
+    top: auto;
+    bottom: -1.2rem;
+  }
+  .hash-pipeline strong {
+    font-size: 0.9375rem;
+  }
+  .hash-allocation-stats {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .hash-allocation-stats > div:nth-child(n + 4) {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .hash-playback {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+  .hash-playback-main {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column: 1 / -1;
+  }
+  .hash-activity-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hash-activity-picker button {
+    padding: 0.85rem 0.65rem;
+  }
+  .hash-lesson .lesson-view-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .hash-section-navigation,
+  .hash-section-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hash-section-navigation select {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .hash-section-footer .hash-step {
+    grid-column: 1 / -1;
+    grid-row: 1;
   }
   .hash-tree ul {
     gap: 2px;

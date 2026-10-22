@@ -40,6 +40,7 @@ export default function HandoutRecordLookup() {
           </select>
         </Field>
         <button
+          className="hash-secondary"
           onClick={() => {
             setKey("name");
             player.replace(recordLookupTrace("name"));
@@ -51,7 +52,11 @@ export default function HandoutRecordLookup() {
       <div className="hash-pipeline hash-record-pipeline">
         {["KEY", "HASH FUNCTION", "INDEX", "BUCKET", "VALUE"].map(
           (label, i) => (
-            <div className={stage === i ? "is-active" : ""} key={label}>
+            <div
+              className={stage === i ? "is-active" : ""}
+              key={label}
+              aria-current={stage === i ? "step" : undefined}
+            >
               <span>
                 {i + 1} · {label}
               </span>

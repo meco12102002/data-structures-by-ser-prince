@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useId, useState } from "react";
 import { LessonActiveContext } from "../../../hooks/useLessonPlayback";
 import { LoadFactorSimulator } from "./HashingLabs";
 import {
@@ -6,36 +6,50 @@ import {
   JavaResizeIllustration,
   TableSizeSimulator,
 } from "./TableDesignLabs";
-import { Field } from "./LessonUI";
 
 const activities = [
-  ["Table size and allocation", TableSizeSimulator],
-  ["Hash function selection", HashFunctionSelection],
-  ["Load factor and conceptual rehashing", LoadFactorSimulator],
-  ["Java HashMap: 16 buckets and the 13th entry", JavaResizeIllustration],
+  ["Allocation", "Compare table sizes", TableSizeSimulator],
+  ["Hash functions", "Choose a reliable rule", HashFunctionSelection],
+  ["Load factor", "Grow and redistribute", LoadFactorSimulator],
+  ["Java resizing", "Follow the 13th entry", JavaResizeIllustration],
 ];
 
 export default function TableDesignSection() {
   const [activity, setActivity] = useState(0);
   const active = useContext(LessonActiveContext);
+  const id = useId();
   return (
     <div>
-      <div className="hash-controls lesson-controls">
-        <Field label="Table design activity">
-          <select
-            value={activity}
-            onChange={(event) => setActivity(Number(event.target.value))}
+      <div
+        className="hash-activity-picker"
+        role="group"
+        aria-label="Table design activities"
+      >
+        {activities.map(([title, description], i) => (
+          <button
+            key={title}
+            id={`${id}-choice-${i}`}
+            aria-pressed={activity === i}
+            aria-controls={`${id}-activity-${i}`}
+            onClick={() => setActivity(i)}
           >
-            {activities.map(([title], i) => (
-              <option value={i} key={title}>
-                {title}
-              </option>
-            ))}
-          </select>
-        </Field>
+            <span className="hash-activity-number" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <strong>{title}</strong>
+            <span>{description}</span>
+          </button>
+        ))}
       </div>
-      {activities.map(([title, Component], i) => (
-        <div key={title} data-design-activity={i} hidden={activity !== i}>
+      {activities.map(([title, , Component], i) => (
+        <div
+          key={title}
+          id={`${id}-activity-${i}`}
+          role="region"
+          aria-labelledby={`${id}-choice-${i}`}
+          data-design-activity={i}
+          hidden={activity !== i}
+        >
           <LessonActiveContext.Provider value={active && activity === i}>
             <Component />
           </LessonActiveContext.Provider>
