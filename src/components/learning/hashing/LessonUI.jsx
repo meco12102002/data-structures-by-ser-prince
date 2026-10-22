@@ -182,7 +182,7 @@ export function Chips({ items, unordered = false }) {
 
 export function JavaLine({ code }) {
   const tokens = code.split(
-    /("(?:[^"\\]|\\.)*"|\b(?:import|public|class|static|void|new|int|true|false|null)\b|\b\d+\b|\/\/.*)/g,
+    /("(?:[^"\\]|\\.)*"|\b(?:import|public|class|static|void|new|int|true|false|null|if|else|while|for|return|float|boolean)\b|\b\d+\b|\/\/.*)/g,
   );
   return (
     <>
@@ -192,7 +192,7 @@ export function JavaLine({ code }) {
           className={
             token.startsWith('"')
               ? "java-string"
-              : /^(import|public|class|static|void|new|int|true|false|null)$/.test(
+              : /^(import|public|class|static|void|new|int|true|false|null|if|else|while|for|return|float|boolean)$/.test(
                     token,
                   )
                 ? "java-keyword"

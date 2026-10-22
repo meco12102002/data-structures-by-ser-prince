@@ -162,6 +162,28 @@ export function HashFunctionPlayground() {
   const [error, setError] = useState("");
   const [prediction, setPrediction] = useState(null);
   const player = useLessonPlayback(functionFrames(27, 10));
+  let liveIndex = null;
+  try {
+    liveIndex = hashIndex(key, size);
+  } catch {
+    /* Incomplete input has no destination. */
+  }
+  function updateInput(nextKey, nextSize) {
+    setKey(nextKey);
+    setSize(nextSize);
+    try {
+      player.replace(functionFrames(integer(nextKey), nextSize));
+      setError("");
+    } catch (cause) {
+      player.replace([
+        {
+          stage: -1,
+          message: "Enter a valid integer to calculate its destination.",
+        },
+      ]);
+      setError(cause.message);
+    }
+  }
   function calculate(random = false) {
     try {
       const nextKey = random ? Math.floor(Math.random() * 100) : integer(key);
@@ -180,32 +202,13 @@ export function HashFunctionPlayground() {
             type="number"
             step="1"
             value={key}
-            onChange={(event) => {
-              setKey(event.target.value);
-              setError("");
-              player.replace([
-                {
-                  stage: -1,
-                  message: "Key changed. Calculate to begin a new trace.",
-                },
-              ]);
-            }}
+            onChange={(event) => updateInput(event.target.value, size)}
           />
         </Field>
         <Field label="Bucket count">
           <select
             value={size}
-            onChange={(event) => {
-              const nextSize = Number(event.target.value);
-              setSize(nextSize);
-              player.replace([
-                {
-                  stage: -1,
-                  message:
-                    "Table size changed. Calculate to begin a new trace.",
-                },
-              ]);
-            }}
+            onChange={(event) => updateInput(key, Number(event.target.value))}
           >
             {[5, 7, 10, 11].map((n) => (
               <option key={n}>{n}</option>
@@ -228,6 +231,23 @@ export function HashFunctionPlayground() {
           Reset
         </button>
       </div>
+      <div className="hash-formula">
+        index = hash(key) % array_size
+        <br />
+        h(k) = k mod m
+        <span>
+          k = integer key; m = bucket count; mod = remainder. In this simplified
+          model, h(k) is the final bucket index.
+        </span>
+      </div>
+      <p role="status">
+        Live calculation:{" "}
+        {liveIndex === null
+          ? "enter a valid integer"
+          : `${key} mod ${size} = ${liveIndex} → bucket ${liveIndex}`}
+        . Change the key or table size to update immediately; playback
+        highlights the calculation stages.
+      </p>
       <div className="hash-pipeline">
         {["KEY", "HASH FUNCTION", "INDEX", "BUCKET"].map((stage, index) => (
           <div
@@ -242,14 +262,12 @@ export function HashFunctionPlayground() {
                 ? key || "?"
                 : index === 1
                   ? `k mod ${size}`
-                  : player.frame.stage >= 2
-                    ? player.frame.result
-                    : "?"}
+                  : (liveIndex ?? "?")}
             </strong>
           </div>
         ))}
       </div>
-      <BucketTable table={emptyTable(size)} active={player.frame.index} />
+      <BucketTable table={emptyTable(size)} active={liveIndex} />
       <Playback player={player} />
       <Feedback error={!!error}>{error || player.frame.message}</Feedback>
       <div className="hash-predict">

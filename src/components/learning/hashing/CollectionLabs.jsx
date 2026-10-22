@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { reorderEntries } from "../../../utils/hashDesign";
 import { integer, mapOperation, setOperation } from "../../../utils/hashing";
 import { Chips, CodePanel, Feedback, Field } from "./LessonUI";
 
@@ -286,6 +287,15 @@ export function MapPlayground({ compare = false }) {
         ["LinkedHashMap", "Insertion order by default", entries],
       ]
     : [];
+  function moveEntry(entryKey, direction) {
+    const next = reorderEntries(entries, entryKey, direction);
+    setEntries(next);
+    setFeedback(
+      "Rebuilt all three maps using the new insertion order. TreeMap still sorts keys; LinkedHashMap follows this order; HashMap promises no iteration order.",
+    );
+    setStatement("// Rebuilt using the insertion order shown above.");
+    setError(false);
+  }
   return (
     <div className="hash-lab lesson-panel">
       <div className="hash-controls lesson-controls">
@@ -310,10 +320,10 @@ export function MapPlayground({ compare = false }) {
             value={operation}
             onChange={(event) => setOperation(event.target.value)}
           >
-            <option value="put">Add / update</option>
-            <option value="get">Retrieve</option>
-            <option value="containsKey">Check key</option>
-            <option value="remove">Delete</option>
+            <option value="put">put() · Add / update</option>
+            <option value="get">get() · Retrieve</option>
+            <option value="containsKey">containsKey() · Check key</option>
+            <option value="remove">remove() · Delete</option>
           </select>
         </Field>
         <button className="hash-primary active" onClick={run}>
@@ -345,6 +355,50 @@ export function MapPlayground({ compare = false }) {
           </button>
         )}
       </div>
+      {compare && (
+        <details className="hash-definitions lesson-panel">
+          <summary>Change the insertion order</summary>
+          <p>
+            Move a key earlier or later, then rebuild all three maps with those
+            same mappings in the new order. This rebuild is separate from
+            updating an existing key’s value.
+          </p>
+          <div className="hash-controls lesson-controls">
+            {entries.map((entry, i) => (
+              <div key={entry.key} className="hash-panel lesson-panel">
+                <strong>
+                  {i + 1}. {entry.key}
+                </strong>
+                <div className="lesson-controls">
+                  <button
+                    aria-label={`Move ${entry.key} earlier`}
+                    disabled={i === 0}
+                    onClick={() => moveEntry(entry.key, -1)}
+                  >
+                    Earlier
+                  </button>
+                  <button
+                    aria-label={`Move ${entry.key} later`}
+                    disabled={i === entries.length - 1}
+                    onClick={() => moveEntry(entry.key, 1)}
+                  >
+                    Later
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+          <CodePanel
+            lines={[
+              "Map<String, Integer> map = new LinkedHashMap<>();",
+              ...entries.map(
+                (entry) =>
+                  `map.put(${JSON.stringify(entry.key)}, ${entry.value});`,
+              ),
+            ]}
+          />
+        </details>
+      )}
       {compare ? (
         <div className="hash-grid-three">
           {variants.map(([name, description, values]) => (

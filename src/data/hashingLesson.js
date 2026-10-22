@@ -265,7 +265,7 @@ export const hashingSections = [
     explanation:
       "Both collections reject duplicates. HashSet is hash-based and makes no guarantee about iteration order. TreeSet is tree-based and maintains natural sorted order by default. The simplified tree here illustrates ordering, not Java’s balancing internals.",
     clarification:
-      "Handout p. 5 describes unordered insertion as randomized. For Java HashSet, the precise rule is that iteration order is unspecified; it is not a promise of random shuffling on each run. Hash-based operations average O(1) with good distribution and can degrade to O(n) in a general hash-table worst case.",
+      "Handout p. 5 describes unordered insertion as randomized. For Java HashSet, the precise rule is that iteration order is unspecified; it is not a promise of random shuffling on each run. The handout calls an ordered set the most common type; that description is not a universal usage guarantee. Hash-based operations average O(1) with good distribution and can degrade to O(n) in a general hash-table worst case.",
     terms: [
       [
         "Unordered set",
@@ -332,6 +332,8 @@ export const hashingSections = [
   {
     title: "HashMap, TreeMap, and LinkedHashMap",
     tag: "CHOOSE YOUR ORDER",
+    clarification:
+      "The handout’s constant-time statement for a Hash Map describes average-case access with suitable hash distribution. It is not a guarantee for every operation. TreeMap provides logarithmic basic operations; HashMap and HashSet do not guarantee iteration order.",
     problem:
       "Should a product-price directory display in sorted key order or in the order products were added?",
     explanation:
@@ -417,7 +419,7 @@ export const hashingSections = [
     terms: [
       [
         "The complete chain",
-        "Problem → experience → observation → explanation → terminology → practice → Java.",
+        "Concept → simple explanation → visualization → interaction → Java connection → understanding check.",
       ],
     ],
     application:

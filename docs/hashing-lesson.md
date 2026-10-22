@@ -21,6 +21,10 @@ The first section also includes requested supplemental examples of directory loo
 
 The six Java walkthroughs preserve the handout's operations, identifiers, values, branches, class names, and output labels; comments and whitespace are condensed. HashMap and HashSet console panels explicitly show one possible iteration order rather than a guaranteed ordering. Map examples retain the `Map<K, V>` interface syntax from the handout.
 
+The [topic-by-topic coverage checklist](hashing-content-coverage.md) maps every handout topic to the existing sections. Relevant sections follow the sequence: original concept, simple explanation, visualization and interaction, Java connection, and understanding check. Source excerpts remain distinct from technical clarifications.
+
+The opening record lookup follows name/Kimmy, age/32, and city/Tacloban through key, hash function, index, bucket, and value. Numeric modulo calculations update immediately when the key or capacity changes. Section 06 retains conceptual rehashing and adds separate activities for allocation, deterministic/uniform/fast functions, and Java's 16-bucket, 0.75-load-factor resize illustration. Section 10 can rebuild the same mappings in a different insertion order to compare the three Map implementations.
+
 Concise handout clarifications are included beside the relevant concepts:
 
 - Page 2's `k = 2` beside `h(27)` is inconsistent; that example uses `k = 27`. Raw hash codes are distinguished from the bucket index after modulo.
@@ -33,7 +37,9 @@ Java collection ordering and API behavior were checked against Oracle's Java SE 
 ## Maintenance
 
 - `src/data/hashingLesson.js`: lesson text, terminology, practice, and final questions.
+- `src/data/hashingCurriculum.js`: original handout concept excerpts and section-level Java connections.
 - `src/utils/hashing.js`: pure algorithms; no React or DOM dependencies.
+- `src/utils/hashDesign.js`: record traces, allocation comparisons, bounded computation, Java resize snapshots, and immutable insertion-order rebuilding.
 - `src/utils/collisionGuide.js`: short insertion traces derived from those same algorithms, showing the incoming key, original bucket, occupied/empty checks, and storage separately.
 - `src/data/collisionLesson.js`: plain-language rules, analogies, formulas, and takeaways for the four collision methods.
 - `src/hooks/useLessonPlayback.js`: cancellable playback with manual stepping and speed controls.
@@ -52,7 +58,7 @@ To complete the lesson, visit all sections and correctly answer each final quest
 
 ## Verification
 
-- Seventeen tests cover the core algorithms (including 1,440 mixed open-addressing operations checked against a reference Map), guided collision traces, Java trace integrity, and six Java compilation/output checks.
+- Twenty-two tests cover the core algorithms (including 1,440 mixed open-addressing operations checked against a reference Map), guided collision traces, allocation and resize preservation, Java trace integrity, and six Java compilation/output checks.
 - All six handout Java examples compile with JDK 25, and actual console output matches the trace's allowed outputs. `npm test` includes these checks and skips compilation only when no local JDK is available.
 - Headless Edge checks pass for search counters, playback, invalid and negative inputs, table operations, collisions, all four handling methods, exhausted/full tables, threshold pauses, rehash preservation, Set uniqueness, Map replacement/ordering, walkthrough reversal, practice resets, and completion.
 - Automated axe WCAG A/AA checks report no violations across all 13 sections. This is an automated audit, not a substitute for assistive-technology testing.
@@ -62,3 +68,5 @@ To complete the lesson, visit all sections and correctly answer each final quest
 - After handout alignment, production-preview checks pass for all six walkthroughs, active source-line synchronization, both conditional branches, console history, reverse/restart, handout clarifications, source-page references, keyboard labels, and code-panel overflow at tablet and phone widths. The empty-tree semantic role is corrected, and the 13-section automated accessibility scan reports no violations.
 - Shared-style checks confirm that the hashing page matches the binary-tree lesson's page width and heading typography. Default/Slides switching retains simulator state; full-lesson scrolling updates section navigation. Both views pass accessibility checks, all sections fit desktop/tablet/phone widths, and existing lesson routes still load without runtime errors.
 - The guided collision lab passes browser checks for before/after insertion states, all four methods, reverse/play/pause/restart/speed controls, advanced search after deletion, custom/invalid/negative keys, full and exhausted tables, expandable formulas/results, both lesson views, mobile overflow, and automated accessibility. Desktop and mobile screenshots were reviewed.
+- Content-enhancement browser checks pass for all three record lookups, live modulo input, small/large/spare-capacity allocation, prime/non-prime distribution, each hash-function property, conceptual rehashing, Java's 12/13-entry threshold and 32-bucket transfer, and insertion-order rebuilding. All 13 sections pass automated accessibility checks; the new activities fit 1440, 768, 390, and 320 pixel viewports.
+- Additional accessibility scans pass for every table-design activity and hash-function property panel, including expanded prime comparisons. Playback pauses and retains its place when switching activities or collapsing the search comparison, and resumes when reopened.

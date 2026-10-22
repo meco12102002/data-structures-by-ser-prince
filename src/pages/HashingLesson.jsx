@@ -1,14 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
 import { handoutPagesBySection, hashingSections } from "../data/hashingLesson";
+import {
+  handoutConcepts,
+  sectionJavaConnections,
+} from "../data/hashingCurriculum";
 import { LessonActiveContext } from "../hooks/useLessonPlayback";
 import {
   StudentSearch,
   HashFunctionPlayground,
   HashTableSimulator,
   CollisionDiscovery,
-  LoadFactorSimulator,
 } from "../components/learning/hashing/HashingLabs";
 import {
   MapPlayground,
@@ -22,15 +25,20 @@ import {
   FinalReview,
   PracticeLab,
 } from "../components/learning/hashing/PracticeLab";
-import { PracticeQuestion } from "../components/learning/hashing/LessonUI";
+import {
+  CodePanel,
+  PracticeQuestion,
+} from "../components/learning/hashing/LessonUI";
+import HandoutRecordLookup from "../components/learning/hashing/HandoutRecordLookup";
+import TableDesignSection from "../components/learning/hashing/TableDesignSection";
 
 const labs = [
-  StudentSearch,
+  HashingBasics,
   HashFunctionPlayground,
   HashTableSimulator,
   CollisionDiscovery,
   CollisionHandlingLab,
-  LoadFactorSimulator,
+  TableDesignSection,
   SetPlayground,
   SetComparison,
   MapPlayground,
@@ -42,6 +50,25 @@ const labs = [
 
 function ProductMapComparison() {
   return <MapPlayground compare />;
+}
+
+function HashingBasics() {
+  const active = useContext(LessonActiveContext);
+  const [comparisonOpen, setComparisonOpen] = useState(false);
+  return (
+    <>
+      <HandoutRecordLookup />
+      <details
+        className="hash-definitions lesson-panel"
+        onToggle={(event) => setComparisonOpen(event.currentTarget.open)}
+      >
+        <summary>Compare sequential search and hash-based lookup</summary>
+        <LessonActiveContext.Provider value={active && comparisonOpen}>
+          <StudentSearch />
+        </LessonActiveContext.Provider>
+      </details>
+    </>
+  );
 }
 
 export default function HashingLesson() {
@@ -245,26 +272,43 @@ export default function HashingLesson() {
                     {handoutPagesBySection[index]}
                   </p>
                   <p>{section.problem}</p>
+                  <div className="hash-concept">
+                    {handoutConcepts[index] && (
+                      <>
+                        <span className="section-label">
+                          HANDOUT DEFINITION / SOURCE EXCERPT
+                        </span>
+                        <dl>
+                          {handoutConcepts[index].map((concept) => (
+                            <div key={concept.term}>
+                              <dt>
+                                <strong>{concept.term}</strong>
+                              </dt>
+                              <dd className="hash-source-definition">
+                                {concept.definition}
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </>
+                    )}
+                    {section.clarification && (
+                      <div className="lesson-callout hash-feedback">
+                        <strong>Technical clarification</strong>
+                        <p>{section.clarification}</p>
+                      </div>
+                    )}
+                    <span className="section-label">IN SIMPLE TERMS</span>
+                    <p>{section.explanation}</p>
+                  </div>
                   <Lab
                     allVisited={visited.length === hashingSections.length}
                     complete={complete}
                     onComplete={setComplete}
                   />
                   <div className="hash-concept">
-                    <span className="section-label">
-                      MAKE SENSE OF WHAT YOU OBSERVED
-                    </span>
-                    <p>{section.explanation}</p>
-                    {section.clarification && (
-                      <details className="hash-definitions lesson-panel">
-                        <summary>Handout clarification</summary>
-                        <p>{section.clarification}</p>
-                      </details>
-                    )}
                     <details className="hash-definitions lesson-panel">
-                      <summary>
-                        Name what you observed · important terminology
-                      </summary>
+                      <summary>Important terminology and formulas</summary>
                       <dl>
                         {section.terms.map(([term, definition]) => (
                           <div key={term}>
@@ -280,6 +324,23 @@ export default function HashingLesson() {
                       {section.application}
                     </p>
                   </div>
+                  {sectionJavaConnections[index] && (
+                    <details className="hash-definitions lesson-panel">
+                      <summary>Java connection · this concept in code</summary>
+                      <p>{sectionJavaConnections[index].text}</p>
+                      <CodePanel lines={sectionJavaConnections[index].lines} />
+                      <p className="hash-small">
+                        Method-body excerpts; Map and collection types require
+                        java.util imports. Complete source programs and their
+                        output are preserved in Java Code Walkthroughs.
+                      </p>
+                      <div className="lesson-controls">
+                        <button onClick={() => navigate(10)}>
+                          Open Java Code Walkthroughs
+                        </button>
+                      </div>
+                    </details>
+                  )}
                   {index === 0 && <HashingApplications />}
                   {section.question && (
                     <PracticeQuestion question={section.question} />

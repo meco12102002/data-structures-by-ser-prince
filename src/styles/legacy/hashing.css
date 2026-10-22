@@ -24,7 +24,8 @@
 .hash-lesson .lesson-section p {
   color: #8d938e;
 }
-.hash-lesson :is(button, input, select, a, summary, pre, [tabindex]):focus-visible {
+.hash-lesson
+  :is(button, input, select, a, summary, pre, [tabindex]):focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -404,6 +405,21 @@
 .hash-concept {
   margin-top: 2rem;
 }
+.hash-source-definition {
+  margin: 0.5rem 0 1.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+  color: #aeb5af;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  max-width: 680px;
+}
+.hash-record-pipeline {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.hash-record-pipeline > div:last-child strong {
+  color: var(--hash-value);
+}
 .hash-definitions {
   margin: 1.25rem 0;
 }
@@ -556,6 +572,7 @@
     grid-template-columns: 1fr;
   }
   .hash-pipeline,
+  .hash-record-pipeline,
   .hash-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

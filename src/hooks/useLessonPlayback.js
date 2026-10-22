@@ -63,6 +63,15 @@ export function useLessonPlayback(initialFrames) {
       })),
     restart: () =>
       setState((current) => ({ ...current, playing: false, step: 0 })),
+    seek: (step) =>
+      setState((current) => ({
+        ...current,
+        playing: false,
+        step: Math.max(
+          0,
+          Math.min(Math.trunc(Number(step)) || 0, current.frames.length - 1),
+        ),
+      })),
     setSpeed: (speed) =>
       setState((current) => ({ ...current, speed: Number(speed) })),
   };
